@@ -1,10 +1,14 @@
 #include "algorithm.h"
 #include "motorStep.h"
 #include "stdio.h"
+#include "malloc.h"
+#include "string.h"
 
 
+char Result[100];
 
-void moveHead(int X[], int Y[]){
+char *moveHead(int X[], int Y[]){
+	int i=0;
 	int x,y,dx,dy,m,d;
 	dx = X[1]- X[0];
 	dy = Y[1]- Y[0];
@@ -25,13 +29,16 @@ void moveHead(int X[], int Y[]){
     	current_Ystep = y;
 
     	if(current_Xstep > previous_Xstep){
-				  // printf("step X\n");
-				motorstepX();
+				Result[i]='x';
+				i++;
 
+				  //printf("step X\n");
+				// motorstepX();
     	}
     	if(current_Ystep > previous_Ystep){
-    			// printf("step y\n");
-				motorstepY();
+    			 //printf("step y\n");
+					Result[i]='y';
+					i++;
 
     	}
 
@@ -41,14 +48,24 @@ void moveHead(int X[], int Y[]){
         	}
         d = d + 2* dy;
     }
+		return Result;
 }
 
 
-// void moveHead(int X[], int Y[]){
+//fake
+
+void giveMeSteps(char values[], int size) {
+  int i;
+  for(i = 0; i < size; i++)
+    values[i] = getNumber();
+}
+
+// void moveHead1(int X[], int Y[]){
 // 	int x,y,dx,dy,m,d;
 //
 // 	dx = X[1]- X[0];
 // 	dy = Y[1]- Y[0];
+// 	m = dy/dx;
 //
 //     x = X[0];
 //     y = Y[0];

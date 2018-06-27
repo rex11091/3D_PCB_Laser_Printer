@@ -16,6 +16,8 @@ struct MotorInfo{
   char *Pin;
 };
 
+int getNumber(void);
+
 int motorstepX();
 int motorstepY();
 int motorstepZ();
