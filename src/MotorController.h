@@ -18,7 +18,7 @@ struct LineInfo {
   int stepX;
   int stepY;
   int stepZ;
-  char StepSequence[];
+  int change; // variable to determine the changes of end point and final point
 };
 void setupMovement(int start[],int end[],LineInfo *LineInfo);
 void MotorToNextStep(LineInfo *lineinfo);
