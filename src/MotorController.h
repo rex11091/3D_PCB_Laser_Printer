@@ -1,26 +1,20 @@
 #ifndef _MOTORCONTROLLER_H
 #define _MOTORCONTROLLER_H
+#include "motorPin.h"
 
 
-
-typedef struct LineInfo LineInfo;
-struct LineInfo {
-  int dx;
-  int dy;
-  int dz;
-  int X;
-  int Y;
-  int Z;
-  int d;
-  double m;
-  int StartCoord[3];
-  int EndCoord[3];
-  int stepX;
-  int stepY;
-  int stepZ;
-  int change; // variable to determine the changes of end point and final point
+typedef struct MotorInfo MotorInfo;
+struct MotorInfo {
+  int delta;      // selfdelta
+  int deltaRef;   // compare line delta
+//  int initial_point; //self starting point
+  int diff;
+  int coordinate[2];   //from starting point to ending point
+  int change;          // change =1 if delta < deltaRef;
+  MotorPin motorPin;
 };
-void setupMovement(int start[],int end[],LineInfo *LineInfo);
-void MotorToNextStep(LineInfo *lineinfo);
-void DrawLine(LineInfo *lineinfo);
+void setupMovement(int start[],int end[],MotorInfo *MotorInfo1,MotorInfo *MotorInfo2);
+void CheckEitherChangeOrNoChange(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2);
+// void MotorToNextStep(LineInfo *lineinfo);
+// void MotorMovement(LineInfo *lineinfo);
 #endif // _MOTORCONTROLLER_H
