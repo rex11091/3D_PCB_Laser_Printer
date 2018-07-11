@@ -14,13 +14,13 @@ int delta,deltaRef,diff;
 
   MotorInfo1->delta = delta;
   MotorInfo1->deltaRef = deltaRef;
-  // MotorInfo1->initial_point = start[0];
+  MotorInfo1->initial_point = start[0];
   MotorInfo1->diff = diff;
   MotorInfo1->coordinate[0] = start[0];
   MotorInfo1->coordinate[1] = end[0];
   MotorInfo2->delta = deltaRef;
   MotorInfo2->deltaRef = delta;
-  // MotorInfo2->initial_point = start[1];
+  MotorInfo2->initial_point = start[1];
   MotorInfo2->diff = diff;
   MotorInfo2->coordinate[0] = start[1];
   MotorInfo2->coordinate[1] = end[1];
@@ -46,8 +46,8 @@ int temp1,temp2;
     MotorInfo1->delta = MotorInfo1->coordinate[1] - MotorInfo1->coordinate[0];
     MotorInfo1->deltaRef  = MotorInfo2->coordinate[1] - MotorInfo2->coordinate[0];
     MotorInfo1->diff = 2*(MotorInfo1->deltaRef) - MotorInfo1->delta;
-    // MotorInfo1->initial_point = MotorInfo1->coordinate[0];
-    // MotorInfo2->initial_point = MotorInfo2->coordinate[0];
+    MotorInfo1->initial_point = MotorInfo1->coordinate[0];
+    MotorInfo2->initial_point = MotorInfo2->coordinate[0];
     MotorInfo1->change = 1;
 
   }
@@ -61,24 +61,40 @@ void MotorToNextStep(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2){
 
   if(currentStep_motor1 < (MotorInfo1->coordinate[1])){
         	previousStep_motor1 = currentStep_motor1;
-        	currentStep_motor1 = MotorInfo1->coordinate[0];
+        	currentStep_motor1 = MotorInfo1->initial_point;
+
         	previousStep_motor2 = currentStep_motor2;
-        	currentStep_motor1 = MotorInfo2->coordinate[0];
+        	currentStep_motor2 = MotorInfo2->initial_point;
 
         	if(currentStep_motor1 >previousStep_motor1){
             //call timer interrupt
+            timerinterrupt(&(MotorInfo1->motorPin));
+
+            MotorInfo1->coordinate[0]+=1;
         	}
-        	if(currentStep_motor2 > previousStep_motor2){
+        	if(currentStep_motor2 >previousStep_motor2){
             //call timer interrupt
+            timerinterrupt(&(MotorInfo2->motorPin));
+
+            MotorInfo2->coordinate[0]+=1;
         	}
       }
     if (MotorInfo1->diff >= 0){
-            MotorInfo2->coordinate[0] = MotorInfo2->coordinate[0] + 1;
+            MotorInfo2->initial_point = MotorInfo2->initial_point + 1;
             MotorInfo1->diff = MotorInfo1->diff - 2* (MotorInfo1->delta);
             }
         MotorInfo1->diff = MotorInfo1->diff + 2* (MotorInfo1->deltaRef);
-
 }
+
+void MotorMovement(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2){
+
+    for(MotorInfo1->initial_point; MotorInfo1->initial_point< (MotorInfo1->coordinate[1]+1); (MotorInfo1->initial_point)++){
+      MotorToNextStep(MotorInfo1,MotorInfo2);
+    }
+}
+
+
+
 //
 //
 // void MotorMovement(LineInfo *lineinfo){
