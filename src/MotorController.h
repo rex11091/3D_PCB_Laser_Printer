@@ -18,6 +18,4 @@ void setupMovement(int start[],int end[],MotorInfo *MotorInfo1,MotorInfo *MotorI
 void CheckEitherChangeOrNoChange(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2);
 void MotorToNextStep(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2);
 void MotorMovement(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2);
-// void MotorToNextStep(LineInfo *lineinfo);
-// void MotorMovement(LineInfo *lineinfo);
 #endif // _MOTORCONTROLLER_H

@@ -2,5 +2,5 @@
 #define _TIMERINTERRUPT_H
 #include "motorPin.h"
 #include "togglePin.h"
-int timerinterrupt(MotorPin *MotorPin);
+int interruptSubRoutine(MotorPin *MotorPin);
 #endif // _TIMERINTERRUPT_H

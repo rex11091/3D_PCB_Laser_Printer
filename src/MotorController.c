@@ -7,9 +7,6 @@ int delta,deltaRef,diff;
 
   delta = end[0] - start[0];
   deltaRef = end[1] - start[1];
-
-  // starting1 = start[0];
-  // starting2 = start[1];
   diff = 2*deltaRef - delta;
 
   MotorInfo1->delta = delta;
@@ -24,6 +21,7 @@ int delta,deltaRef,diff;
   MotorInfo2->diff = diff;
   MotorInfo2->coordinate[0] = start[1];
   MotorInfo2->coordinate[1] = end[1];
+  CheckEitherChangeOrNoChange(MotorInfo1,MotorInfo2);
 }
 //this function is for exchange the coordinates of motors if the delta is greather than deltaRef
 void CheckEitherChangeOrNoChange(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2){
@@ -45,6 +43,8 @@ int temp1,temp2;
 
     MotorInfo1->delta = MotorInfo1->coordinate[1] - MotorInfo1->coordinate[0];
     MotorInfo1->deltaRef  = MotorInfo2->coordinate[1] - MotorInfo2->coordinate[0];
+    // MotorInfo2->delta = MotorInfo1->deltaRef;
+    // MotorInfo2->deltaRef = MotorInfo1->delta;
     MotorInfo1->diff = 2*(MotorInfo1->deltaRef) - MotorInfo1->delta;
     MotorInfo1->initial_point = MotorInfo1->coordinate[0];
     MotorInfo2->initial_point = MotorInfo2->coordinate[0];
@@ -52,6 +52,7 @@ int temp1,temp2;
 
   }
 }
+
 void MotorToNextStep(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2){
 
   int currentStep_motor1=MotorInfo1->coordinate[0];
@@ -68,14 +69,22 @@ void MotorToNextStep(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2){
 
         	if(currentStep_motor1 >previousStep_motor1){
             //call timer interrupt
-            timerinterrupt(&(MotorInfo1->motorPin));
-
+            if(MotorInfo1->change ==1){
+              interruptSubRoutine(&(MotorInfo2->motorPin));
+            }
+            else{
+              interruptSubRoutine(&(MotorInfo1->motorPin));
+            }
             MotorInfo1->coordinate[0]+=1;
         	}
         	if(currentStep_motor2 >previousStep_motor2){
             //call timer interrupt
-            timerinterrupt(&(MotorInfo2->motorPin));
-
+            if(MotorInfo1->change ==1){
+              interruptSubRoutine(&(MotorInfo1->motorPin));
+            }
+            else{
+              interruptSubRoutine(&(MotorInfo2->motorPin));
+            }
             MotorInfo2->coordinate[0]+=1;
         	}
       }
@@ -92,27 +101,3 @@ void MotorMovement(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2){
       MotorToNextStep(MotorInfo1,MotorInfo2);
     }
 }
-
-
-
-//
-//
-// void MotorMovement(LineInfo *lineinfo){
-//
-//     for(lineinfo->X; lineinfo->X < (lineinfo->EndCoord[0])+1; (lineinfo->X)++){
-//
-//       MotorToNextStep(lineinfo);
-//       if(lineinfo->stepX == 1){
-//         printf("start timer interrupt : motorX.pin toggle\n");
-//         lineinfo->stepX =0;
-//       }
-//       if(lineinfo->stepY ==1){
-//         printf("start timer interrupt : motorY.pin toggle\n");
-//         lineinfo->stepY =0;
-//       }
-//       if(lineinfo->stepZ ==1){
-//         printf("start timer interrupt : motorZ.pin toggle\n");
-//         lineinfo->stepZ =0;
-//       }
-//     }
-// }

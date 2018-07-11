@@ -22,6 +22,10 @@ MotorPin motorpinY = {
     9,						//age
     };
 
+MotorPin motorpinZ = {
+    'A',					//name
+    10,						//age
+    };
 
 void test_MotorController_setupMovement_given_coordinate_from_2_1_to_6_3(void)
 {
@@ -56,14 +60,24 @@ void test_MotorController_setupMovement_When_deltaRef_greather_than_delta_expect
     CheckEitherChangeOrNoChange(&MotorX,&MotorY);
     TEST_ASSERT_EQUAL(3,MotorX.delta);
     TEST_ASSERT_EQUAL(2,MotorX.deltaRef);
-     TEST_ASSERT_EQUAL(2,MotorX.initial_point);
     TEST_ASSERT_EQUAL(1,MotorX.diff);
+    TEST_ASSERT_EQUAL(2,MotorX.initial_point);
     TEST_ASSERT_EQUAL(2,MotorX.coordinate[0]);
     TEST_ASSERT_EQUAL(5,MotorX.coordinate[1]);
 
-     TEST_ASSERT_EQUAL(1,MotorY.initial_point);
+    TEST_ASSERT_EQUAL(1,MotorY.initial_point);
     TEST_ASSERT_EQUAL(1,MotorY.coordinate[0]);
     TEST_ASSERT_EQUAL(3,MotorY.coordinate[1]);
+}
+
+void test_MotorController_testing_interrupt_subrountine(void)
+{
+  togglemotorpin2_Expect();
+  interruptSubRoutine(&motorpinY);
+  togglemotorpin1_Expect();
+  interruptSubRoutine(&motorpinX);
+  togglemotorpin3_Expect();
+  interruptSubRoutine(&motorpinZ);
 }
 
 
@@ -109,18 +123,74 @@ void test_MotorController_setupMovement_given_coordinate_from_1_2_to_6_3(void)
   togglemotorpin1_Expect();
   togglemotorpin1_Expect();
   MotorMovement(&MotorX,&MotorY);
-
 }
-void test_MotorController_setupMovement_given_coordinate_from_2_1_to_3_6(void)
+
+void test_MotorController_setupMovement_given_coordinate_from_1_2_to_3_5(void)
 {
   MotorInfo MotorX;
   MotorInfo MotorY;
   MotorX.motorPin = motorpinX;
   MotorY.motorPin = motorpinY;
-  int point_start[2] = {2,1};
-  int point_end[2] = {3,6};
+  int point_start[2] = {1,2};
+  int point_end[2] = {3,5};
   setupMovement(point_start,point_end,&MotorX,&MotorY);
 
+  togglemotorpin2_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin2_Expect();
+  togglemotorpin2_Expect();
+  togglemotorpin1_Expect();
+  MotorMovement(&MotorX,&MotorY);
+}
+
+void test_MotorController_setupMovement_given_3_axis(void)
+{
+  MotorInfo MotorX;
+  MotorInfo MotorY;
+  MotorInfo MotorZ;
+  MotorX.motorPin = motorpinX;
+  MotorY.motorPin = motorpinY;
+  MotorZ.motorPin = motorpinZ;
+  int point_start_XY[2] = {1,2};
+  int point_end_XY[2] = {6,3};
+  int point_start_XZ[2] = {1,4};
+  int point_end_XZ[2] = {6,5};
+
+  // compare X-line and Y-line
+  setupMovement(point_start_XY,point_end_XY,&MotorX,&MotorY);
+  togglemotorpin1_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin2_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin1_Expect();
+  MotorMovement(&MotorX,&MotorY);
+  // compare X-line and Z-line
+  setupMovement(point_start_XZ,point_end_XZ,&MotorX,&MotorZ);
+  togglemotorpin1_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin3_Expect();
+  togglemotorpin1_Expect();
+  togglemotorpin1_Expect();
+  MotorMovement(&MotorX,&MotorZ);
+}
+
+void test_MotorController_setupMovement_given_3_axis_after_exchange_1times(void)
+{
+  MotorInfo MotorX;
+  MotorInfo MotorY;
+  MotorInfo MotorZ;
+  MotorX.motorPin = motorpinX;
+  MotorY.motorPin = motorpinY;
+  MotorZ.motorPin = motorpinZ;
+  int point_start_XY[2] = {2,1};
+  int point_end_XY[2] = {3,6};
+  int point_start_YZ[2] = {1,4};
+  int point_end_YZ[2] = {6,5};
+
+  // compare X-line and Y-line
+  setupMovement(point_start_XY,point_end_XY,&MotorX,&MotorY);
   togglemotorpin2_Expect();
   togglemotorpin2_Expect();
   togglemotorpin2_Expect();
@@ -128,38 +198,13 @@ void test_MotorController_setupMovement_given_coordinate_from_2_1_to_3_6(void)
   togglemotorpin2_Expect();
   togglemotorpin2_Expect();
   MotorMovement(&MotorX,&MotorY);
-
+  // compare Y-line and Z-line
+  setupMovement(point_start_YZ,point_end_YZ,&MotorY,&MotorZ);
+  togglemotorpin2_Expect();
+  togglemotorpin2_Expect();
+  togglemotorpin2_Expect();
+  togglemotorpin3_Expect();
+  togglemotorpin2_Expect();
+  togglemotorpin2_Expect();
+  MotorMovement(&MotorY,&MotorZ);
 }
-
-
-
-//
-//
-// void test_MotorController_DrawLineFunction_for_motor_Stepping_less_than_45degree(void)
-// {
-//     LineInfo newline;
-//     int point_start[2] = {1,2};
-//     int point_end[2] = {4,8};
-//     setupMovement(point_start,point_end,&newline);
-//     DrawLine(&newline);
-//
-// }
-// void test_MotorController_DrawLineFunction_for_motor_Stepping_point_2_3_to_8_6(void)
-// {
-//     LineInfo newline;
-//     int point_start[2] = {2,3};
-//     int point_end[2] = {8,6};
-//     setupMovement(point_start,point_end,&newline);
-//     DrawLine(&newline);
-//
-// }
-//
-// void test_MotorController_DrawLineFunction_for_motor_Stepping_more_than_45degree(void)
-// {
-//     LineInfo newline;
-//     int point_start[2] = {1,2};
-//     int point_end[2] = {2,4};
-//     setupMovement(point_start,point_end,&newline);
-//     DrawLine(&newline);
-//
-// }
