@@ -1,7 +1,5 @@
 #ifndef _MOTORCONTROLLER_H
 #define _MOTORCONTROLLER_H
-#include "motorPin.h"
-#include "timerinterrupt.h"
 
 
 typedef struct MotorInfo MotorInfo;
@@ -12,9 +10,12 @@ struct MotorInfo{
   int error;
   int Dostepping;
   int isReferencing;
+  int start;
+  int end;
 };
-void try1(int x);
 void setupMotorInfo(MotorInfo Motorinfo[],int start[],int end[],int numbOfMotors);
+void MotorMovement(MotorInfo Motorinfo[],int numberOfMotors);
+void TimerInterruptCheckingStepping(MotorInfo Motorinfo[],int numberOfMotors);
 // void setupMovement(int start[],int end[],MotorInfo *MotorInfo1,MotorInfo *MotorInfo2);
 // void CheckEitherChangeOrNoChange(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2);
 // void MotorToNextStep(MotorInfo *MotorInfo1, MotorInfo *MotorInfo2);
