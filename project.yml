@@ -22,6 +22,9 @@
 
 :environment:
 
+:module_generator:
+    :naming: bumpy
+
 :extension:
   :executable: .exe
 
@@ -42,6 +45,7 @@
   :test:
     - *common_defines
     - TEST
+    - _ISOC99_SOURCE
   :test_preprocess:
     - *common_defines
     - TEST
