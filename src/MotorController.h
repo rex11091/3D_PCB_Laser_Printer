@@ -1,6 +1,9 @@
 #ifndef _MOTORCONTROLLER_H
 #define _MOTORCONTROLLER_H
 
+#define true 1
+#define false 0
+
 typedef struct MotorInfo MotorInfo;
 struct MotorInfo{
   char name;
@@ -13,9 +16,8 @@ struct MotorInfo{
   int end;
 };
 
-
-void setupMotorInfo(MotorInfo Motorinfo[],int start[],int end[],int numbOfMotors);
-void MotorMovement(MotorInfo Motorinfo[],int numberOfMotors);
+void setupMotorInfo(MotorInfo *Motorinfo[],int start[],int end[]);
+void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]);
 void TimerInterruptCheckingStepping(MotorInfo Motorinfo[],int numberOfMotors);
 
 #endif // _MOTORCONTROLLER_H

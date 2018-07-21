@@ -8,7 +8,7 @@
 
 
 
-void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end, MotorInfo Motorinfo[],int index,int lineNo);
+void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end, MotorInfo *MotorInfoTable[],int index,int lineNo);
 
 
 #endif // _INFOVERIFIER_H

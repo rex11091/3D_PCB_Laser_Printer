@@ -18,46 +18,46 @@ char *createMessage(char *message, ...){
 
   return buffer;
 }
-void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end, MotorInfo Motorinfo[],int index,int lineNo){
+void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end, MotorInfo *MotorInfoTable[],int index,int lineNo){
   char *error;
-  if(name != Motorinfo[index].name){
+  if(name != MotorInfoTable[index]->name){
       error = createMessage("Expected motor to be motor (%c), but was motor (%c)",  \
-                            name,Motorinfo[index].name);
+                            name,MotorInfoTable[index]->name);
       UNITY_TEST_FAIL(lineNo,error);
     }
-  else if(delta != Motorinfo[index].delta){
+  else if(delta != MotorInfoTable[index]->delta){
     error = createMessage("Expected delta to be %d, but was %d",  \
-                          delta,Motorinfo[index].delta);
+                          delta,MotorInfoTable[index]->delta);
     UNITY_TEST_FAIL(lineNo,error);
   }
-  else if(df != Motorinfo[index].deltaRef){
+  else if(df != MotorInfoTable[index]->deltaRef){
     error = createMessage("Expected deltaRef to be %d, but was %d",  \
-                          df,Motorinfo[index].deltaRef);
+                          df,MotorInfoTable[index]->deltaRef);
     UNITY_TEST_FAIL(lineNo,error);
   }
-  else if(err != Motorinfo[index].error){
+  else if(err != MotorInfoTable[index]->error){
     error = createMessage("Expected error to be %d, but was %d",  \
-                          err,Motorinfo[index].error);
+                          err,MotorInfoTable[index]->error);
     UNITY_TEST_FAIL(lineNo,error);
   }
-  else if(Dostepping != Motorinfo[index].Dostepping){
+  else if(Dostepping != MotorInfoTable[index]->Dostepping){
       error = createMessage("Expected Dostepping to be %d, but was %d",  \
-                            Dostepping,Motorinfo[index].Dostepping);
+                            Dostepping,MotorInfoTable[index]->Dostepping);
       UNITY_TEST_FAIL(lineNo,error);
     }
-  else if(isReferencing != Motorinfo[index].isReferencing){
+  else if(isReferencing != MotorInfoTable[index]->isReferencing){
       error = createMessage("Expected isReferencing to be %d, but was %d",  \
-                            isReferencing,Motorinfo[index].isReferencing);
+                            isReferencing,MotorInfoTable[index]->isReferencing);
       UNITY_TEST_FAIL(lineNo,error);
     }
-  else if(start !=Motorinfo[index].start){
+  else if(start !=MotorInfoTable[index]->start){
         error = createMessage("Expected startign point to be %d, but was %d",  \
-                              start,Motorinfo[index].start);
+                              start,MotorInfoTable[index]->start);
         UNITY_TEST_FAIL(lineNo,error);
       }
-  else if(end != Motorinfo[index].end){
+  else if(end != MotorInfoTable[index]->end){
       error = createMessage("Expected ending point to be %d, but was %d",  \
-                                  end,Motorinfo[index].end);
+                                  end,MotorInfoTable[index]->end);
         UNITY_TEST_FAIL(lineNo,error);
       }
 
