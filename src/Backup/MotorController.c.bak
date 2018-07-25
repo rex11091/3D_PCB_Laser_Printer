@@ -6,7 +6,7 @@
 #include "main.h"
 
 static int state = DO_STEPPING;
-//TIM_HandleTypeDef htim2;
+
 
 void setupMotorInfo(MotorInfo *MotorInfoTable[],int start[],int end[]){
   int i=0,k=0,l=0,m=0;
@@ -109,13 +109,12 @@ void motorStep(MotorInfo *MotorInfoTable[]){
   int i=0;
     while(MotorInfoTable[i] !=NULL){
       if(MotorInfoTable[i]->Dostepping == 1){
-        WritePinON(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
-        //convertMotorPinToGpioPinAndTurnOn(MotorInfoTable[i]->MotorPin);
+        //WritePinON(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
+    	  convertMotorPinToGpioPinAndTurnOn(MotorInfoTable[i]->MotorPin);
 
       }
       else{
-        WritePinOFF(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
-    	 // convertMotorPinToGpioPinAndTurnOff(MotorInfoTable[i]->MotorPin);
+    	  convertMotorPinToGpioPinAndTurnOff(MotorInfoTable[i]->MotorPin);
       }
       i++;
     }
@@ -131,15 +130,12 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
          motorStep(MotorInfoTable);
          makeStepbasedOnBrenseham(MotorInfoTable);
         // timer period = original value
-        // settimer2Periodvalue(50000);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
         motorStep(MotorInfoTable);
         //timer period = 50us
-      //  settimer2Periodvalue(200000000);
         state =DO_DELAY;
-       // HAL_TIM_Base_Stop_IT(&htim2);
         break;
       }
 }
