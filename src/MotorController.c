@@ -4,9 +4,11 @@
 #include "stddef.h"
 #include "malloc.h"
 #include "main.h"
+#include "stm32f1xx_hal.h"
+
 
 static int state = DO_STEPPING;
-//TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim2;
 
 void setupMotorInfo(MotorInfo *MotorInfoTable[],int start[],int end[]){
   int i=0,k=0,l=0,m=0;
@@ -61,6 +63,7 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
       else{
         MotorInfoTable[i]->Dostepping =0;
         stop =1;
+        
       }
       MotorInfoTable[i]->start+=1;
     }
@@ -109,13 +112,13 @@ void motorStep(MotorInfo *MotorInfoTable[]){
   int i=0;
     while(MotorInfoTable[i] !=NULL){
       if(MotorInfoTable[i]->Dostepping == 1){
-        WritePinON(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
-        //convertMotorPinToGpioPinAndTurnOn(MotorInfoTable[i]->MotorPin);
+       // WritePinON(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
+        convertMotorPinToGpioPinAndTurnOn(MotorInfoTable[i]->MotorPin);
 
       }
       else{
-        WritePinOFF(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
-    	 // convertMotorPinToGpioPinAndTurnOff(MotorInfoTable[i]->MotorPin);
+        //WritePinOFF(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
+    	  convertMotorPinToGpioPinAndTurnOff(MotorInfoTable[i]->MotorPin);
       }
       i++;
     }
@@ -130,16 +133,18 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
          clearALLMotorinfoDostepping(MotorInfoTable);
          motorStep(MotorInfoTable);
          makeStepbasedOnBrenseham(MotorInfoTable);
-        // timer period = original value
-        // settimer2Periodvalue(50000);
+        // timer period = original value (200ms)
+        settimer2Periodvalue(6000);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
         motorStep(MotorInfoTable);
-        //timer period = 50us
-      //  settimer2Periodvalue(200000000);
+        //timer period = 2(50us)
         state =DO_DELAY;
-       // HAL_TIM_Base_Stop_IT(&htim2);
+        settimer2Periodvalue(2);
+        HAL_TIM_Base_Stop_IT(&htim2);
         break;
+    default:
+    	break;
       }
 }

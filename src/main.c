@@ -79,8 +79,8 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
     //  &motorZ,
        NULL,
      };
-  int start_point[] = {3,2,1};
-  int end_point[] = {8,6,4};
+  int start_point[] = {3,2};
+  int end_point[] = {8,6};
 
 /* USER CODE END 0 */
 
@@ -95,7 +95,7 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	  setupMotorInfo(MotorInfoTable,start_point,end_point);
+	setupMotorInfo(MotorInfoTable,start_point,end_point);
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -127,10 +127,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-  /* USER CODE END WHILE */
-
 	  HAL_TIM_Base_Start_IT(&htim2);
+	 // HAL_TIM_Base_Start(&htim2);
+  /* USER CODE END WHILE */
+	  //HAL_TIM_Base_Start_IT(&htim2);
+	//  convertMotorPinToGpioPinAndTurnOn(8);
+	//  HAL_Delay(200);
+	//  convertMotorPinToGpioPinAndTurnOff(8);
+	 // HAL_Delay(200);
   /* USER CODE BEGIN 3 */
 
   }
@@ -196,11 +200,11 @@ static void MX_TIM2_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7200;
+  htim2.Init.Prescaler = 2400;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 50000;
+  htim2.Init.Period = 6000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -263,7 +267,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	//if(htim->Instance ==TIM2){
 	DoMotorStepping(MotorInfoTable);
+	//}
 }
 void convertMotorPinToGpioPinAndTurnOn(int motorpin){
 	switch(motorpin){
@@ -287,7 +293,7 @@ void convertMotorPinToGpioPinAndTurnOff(int motorpin){
 }
 
 void settimer2Periodvalue(int value){
-	  htim2.Init.Period = value;
+	htim2.Instance->ARR = value;
 }
 /* USER CODE END 4 */
 

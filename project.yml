@@ -33,7 +33,7 @@
     - +:test/**
     - -:test/support
   :source:
-    - src/**
+    - Src/**
   :include:
     - Inc/**
   :support:
