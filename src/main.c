@@ -42,6 +42,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "MotorController.h"
+#include "UserConfig.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -64,22 +65,22 @@ static void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN 0 */
 MotorInfo motorX={.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                  .isReferencing=FALSE, .start=0, .end=0, .GPIO ='A', .MotorPin=8};
+                  .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORX_STEP_PIN};
 
 MotorInfo motorY={.name='Y', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                  .isReferencing=FALSE, .start=0, .end=0, .GPIO ='A', .MotorPin=9};
+                  .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORY_STEP_PIN};
 
 MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                  .isReferencing=FALSE, .start=0, .end=0, .GPIO ='A', .MotorPin=10};
+                  .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORZ_STEP_PIN};
 
  MotorInfo *MotorInfoTable[] = {
       &motorX,
       &motorY,
-    //  &motorZ,
+     // &motorZ,
        NULL,
      };
-  int start_point[] = {3,2};
-  int end_point[] = {8,6};
+  int delta[] = {5,4};
+
 
 /* USER CODE END 0 */
 
@@ -88,10 +89,10 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
   *
   * @retval None
   */
-int main1(void)
+int main(void)
 {
   /* USER CODE BEGIN 1 */
-	setupMotorInfo(MotorInfoTable,start_point,end_point);
+	setupMotorInfo(MotorInfoTable,delta);
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -193,9 +194,9 @@ static void MX_TIM2_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7200;
+  htim2.Init.Prescaler = 2400;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 50000;
+  htim2.Init.Period = 6000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)

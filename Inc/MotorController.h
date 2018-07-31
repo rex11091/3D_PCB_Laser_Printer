@@ -2,13 +2,14 @@
 #define _MOTORCONTROLLER_H
 
 #include "stm32f103xb.h"
-#define TRUE 10
-#define FALSE 11
+#define ISTRUE 10
+#define ISFALSE 11
 #define DO_DELAY 12
 #define DO_STEPPING 13
 #define LOW 0
 #define HIGH 1
 
+extern int start_step;
 
 typedef struct MotorInfo MotorInfo;
 struct MotorInfo{
@@ -18,13 +19,11 @@ struct MotorInfo{
   int error;
   int Dostepping;
   int isReferencing;
-  int start;
-  int end;
-  GPIO_TypeDef GPIO;
+  int totalStep;
+  GPIO_TypeDef *GPIO;
   int MotorPin;
 };
-void motorStep(MotorInfo *MotorInfoTable[]);
-void setupMotorInfo(MotorInfo *Motorinfo[],int start[],int end[]);
+void setupMotorInfo(MotorInfo *Motorinfo[],int delta[]);
 void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]);
 void clearALLMotorinfoDostepping(MotorInfo *MotorInfoTable[]);
 

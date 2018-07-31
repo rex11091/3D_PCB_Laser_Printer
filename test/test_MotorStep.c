@@ -3,7 +3,7 @@
 #include "MotorController.h"
 #include "InfoVerifier.h"
 #include "step.h"
-#include "mock_step.h"
+#include "mock_stm32f1xx.h"
 #include "stm32f103xb.h"
 
 void setUp(void)
@@ -13,7 +13,7 @@ void setUp(void)
 void tearDown(void)
 {
 }
-GPIO_TypeDef GPIOA = {0,0,0,0,0,0,0};
+GPIO_TypeDef *GPIOA = {0};
 
 /*
 this test only doing do a step of going up and down
@@ -28,11 +28,11 @@ Z.DoStepping=L                              motor Z : H
 void test_MockingFunction_Given_only_MotorXandY_is_stepping_expect_MotorXandY_pin_set_to_High(void)
 {
 MotorInfo motorX=(MotorInfo){.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=1, \
-                             .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=8};
+                             .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=8};
 MotorInfo motorY=(MotorInfo){.name='Y', .delta=0, .deltaRef=0, .error=0, .Dostepping=1,  \
-                              .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=9};
+                              .isReferencing=ISFALSE,.GPIO =GPIOA, .MotorPin=9};
 MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0,  \
-                            .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=10};
+                            .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=10};
 
    MotorInfo *MotorInfoTable[] = {
       &motorX,
@@ -53,11 +53,11 @@ MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostep
 void test_MockingFunction_Given_only_MotorXYZ_is_stepping_expect_call_MOCKING_Function_3times(void)
 {
 MotorInfo motorX=(MotorInfo){.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=1,     \
-                             .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=8};
+                             .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=8};
 MotorInfo motorY=(MotorInfo){.name='Y', .delta=0, .deltaRef=0, .error=0, .Dostepping=1,     \
-                             .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=9};
+                             .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=9};
 MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=1,     \
-                             .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=10};
+                             .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=10};
 
    MotorInfo *MotorInfoTable[] = {
       &motorX,
@@ -87,11 +87,11 @@ Z.DoStepping=L                      motor Z : H                          motor Y
 void test_DoMotorStepping_testing_case_changing_expect_writePinOn_Call_thn_WritePinOFF_Call(void)
 {
 MotorInfo motorX=(MotorInfo){.name='X', .delta=0, .deltaRef=0, .error=-1, .Dostepping=1, \
-                             .isReferencing=0, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=8};
+                             .isReferencing=0, .GPIO =GPIOA, .MotorPin=8};
 MotorInfo motorY=(MotorInfo){.name='Y', .delta=0, .deltaRef=0, .error=-1, .Dostepping=1, \
-                             .isReferencing=0, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=9};
+                             .isReferencing=0, .GPIO =GPIOA, .MotorPin=9};
 MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=-1, .Dostepping=1, \
-                             .isReferencing=0, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=10};
+                             .isReferencing=0,  .GPIO =GPIOA, .MotorPin=10};
 
    MotorInfo *MotorInfoTable[] = {
       &motorX,
@@ -113,7 +113,6 @@ MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=-1, .Doste
 }
 
 
-
 /*
 motor X is Move(3 to 8)                            HL HL HL HL HL
 motor Y is Move(2 to 6)       ----------------->   HL HL LL HL HL
@@ -122,13 +121,13 @@ motor Z is Move(1 to 4)                            HL LL HL LL HL
 void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
 {
   MotorInfo motorX={.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                    .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=8};
+                    .isReferencing=ISFALSE,  .GPIO =GPIOA, .MotorPin=8};
 
   MotorInfo motorY={.name='Y', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                    .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=9};
+                    .isReferencing=ISFALSE,  .GPIO =GPIOA, .MotorPin=9};
 
   MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                    .isReferencing=FALSE, .start=0, .end=0, .GPIO =GPIOA, .MotorPin=10};
+                    .isReferencing=ISFALSE,  .GPIO =GPIOA, .MotorPin=10};
 
      MotorInfo *MotorInfoTable[] = {
         &motorX,
@@ -136,21 +135,21 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
         &motorZ,
          NULL,
        };
-    int start_point[] = {3,2,1};
-    int end_point[] = {8,6,4};
-    setupMotorInfo(MotorInfoTable,start_point,end_point);
-    TEST_ASSERT_EQUAL_MOTORINFO('X',5,5,0,0,TRUE,3,8,8,MotorInfoTable,0);
-    TEST_ASSERT_EQUAL_MOTORINFO('Y',4,5,3,0,FALSE,2,6,9,MotorInfoTable,1);
-    TEST_ASSERT_EQUAL_MOTORINFO('Z',3,5,1,0,FALSE,1,4,10,MotorInfoTable,2);
 
-    //when X = 3
+    int delta[] = {5,4,3};
+    setupMotorInfo(MotorInfoTable,delta);
+    TEST_ASSERT_EQUAL_MOTORINFO('X',5,5,0,0,ISTRUE,8,MotorInfoTable,0);
+    TEST_ASSERT_EQUAL_MOTORINFO('Y',4,5,3,0,ISFALSE,9,MotorInfoTable,1);
+    TEST_ASSERT_EQUAL_MOTORINFO('Z',3,5,1,0,ISFALSE,10,MotorInfoTable,2);
+
+    //when X = 0
     //state DO_STEPPING
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
     DoMotorStepping(MotorInfoTable);
     TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
-    //when x =4
+    //when x =1
     //state DO_DELAY
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
@@ -164,7 +163,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
     TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
 
 
-    //when x =5
+    //when x =2
     //state DO_DELAY
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
@@ -178,7 +177,8 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
      DoMotorStepping(MotorInfoTable);
 
-     //when X=6
+     //when X=3
+     //state DO_DELAY
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
@@ -190,7 +190,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
      DoMotorStepping(MotorInfoTable);
 
-     //when X=7
+     //when X=4
      //state DO_DELAY
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
@@ -203,7 +203,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
      DoMotorStepping(MotorInfoTable);
 
-     //when X=8
+     //when X=5
      //state DO_DELAY
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
@@ -216,7 +216,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
       HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
      DoMotorStepping(MotorInfoTable);
 
-     //when X=9
+     //when X=6
      //state DO_DELAY
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
@@ -227,4 +227,5 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
      DoMotorStepping(MotorInfoTable);
+     start_step=0;
 }

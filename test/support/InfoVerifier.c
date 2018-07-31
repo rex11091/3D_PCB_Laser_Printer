@@ -20,7 +20,7 @@ char *createMessage(char *message, ...){
 
   return buffer;
 }
-void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end,int MotorPin, MotorInfo *MotorInfoTable[],int index,int lineNo){
+void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing,int MotorPin, MotorInfo *MotorInfoTable[],int index,int lineNo){
   char *error;
   if(name != MotorInfoTable[index]->name){
       error = createMessage("Expected motor to be motor (%c), but was motor (%c)",  \
@@ -52,16 +52,6 @@ void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepp
                             isReferencing,MotorInfoTable[index]->isReferencing);
       UNITY_TEST_FAIL(lineNo,error);
     }
-  else if(start !=MotorInfoTable[index]->start){
-        error = createMessage("Expected starting point to be %d, but was %d",  \
-                              start,MotorInfoTable[index]->start);
-        UNITY_TEST_FAIL(lineNo,error);
-      }
-  else if(end != MotorInfoTable[index]->end){
-      error = createMessage("Expected ending point to be %d, but was %d",  \
-                                  end,MotorInfoTable[index]->end);
-        UNITY_TEST_FAIL(lineNo,error);
-      }
 else if(MotorPin != MotorInfoTable[index]->MotorPin){
       error = createMessage("Expected MotorPin to be %d, but was %d",  \
                                       MotorPin,MotorInfoTable[index]->MotorPin);

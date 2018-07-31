@@ -13,9 +13,11 @@
 #define LOW		0
 
 //motorpin to gpio pin
-#define MOTORX                 ((uint16_t)0x0100)  /* Pin 8 selected    */
-#define MOTORY                 ((uint16_t)0x0200)  /* Pin 9 selected    */
-#define MOTORZ                ((uint16_t)0x0400)  /* Pin 10 selected   */
+#define MOTOR_STEP_GPIO_PORT	GPIOA
+
+#define MOTORX_STEP_PIN         GPIO_PIN_8  /* Pin 8 selected    */
+#define MOTORY_STEP_PIN         GPIO_PIN_9 	/* Pin 9 selected    */
+#define MOTORZ_STEP_PIN       	GPIO_PIN_10  /* Pin 10 selected   */
 
 
 //extern TIM_HandleTypeDef htim2;
