@@ -1,5 +1,11 @@
 #ifndef _MOTORSTEP_H
 #define _MOTORSTEP_H
-void WritePinON(char gpio,int pin);
-void WritePinOFF(char gpio,int pin);
+
+#include "MotorController.h"
+#include "step.h"
+
+void DoMotorStepping(MotorInfo *MotorInfoTable[]);
+void StepMotor(MotorInfo *motorInfo);
+void SetAllmotorStep(MotorInfo *MotorInfoTable[]);
+
 #endif // _MOTORSTEP_H

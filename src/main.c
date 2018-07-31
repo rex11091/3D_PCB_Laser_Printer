@@ -39,10 +39,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
-#include "MotorController.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "MotorController.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -73,7 +72,7 @@ MotorInfo motorY={.name='Y', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
 MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
                   .isReferencing=FALSE, .start=0, .end=0, .GPIO ='A', .MotorPin=10};
 
-   MotorInfo *MotorInfoTable[] = {
+ MotorInfo *MotorInfoTable[] = {
       &motorX,
       &motorY,
     //  &motorZ,
@@ -89,10 +88,7 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
   *
   * @retval None
   */
-
-
-
-int main(void)
+int main1(void)
 {
   /* USER CODE BEGIN 1 */
 	setupMotorInfo(MotorInfoTable,start_point,end_point);
@@ -125,16 +121,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+//  HAL_TIM_Base_Start_IT(&htim2);
   while (1)
   {
 	  HAL_TIM_Base_Start_IT(&htim2);
 	 // HAL_TIM_Base_Start(&htim2);
   /* USER CODE END WHILE */
-	  //HAL_TIM_Base_Start_IT(&htim2);
-	//  convertMotorPinToGpioPinAndTurnOn(8);
-	//  HAL_Delay(200);
-	//  convertMotorPinToGpioPinAndTurnOff(8);
-	 // HAL_Delay(200);
+
   /* USER CODE BEGIN 3 */
 
   }
@@ -200,11 +193,11 @@ static void MX_TIM2_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 2400;
+  htim2.Init.Prescaler = 7200;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 6000;
+  htim2.Init.Period = 50000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -264,13 +257,8 @@ static void MX_GPIO_Init(void)
 
 }
 
-
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	//if(htim->Instance ==TIM2){
-	DoMotorStepping(MotorInfoTable);
-	//}
-}
+
 void convertMotorPinToGpioPinAndTurnOn(int motorpin){
 	switch(motorpin){
 	case 8:

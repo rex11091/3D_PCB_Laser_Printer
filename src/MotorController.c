@@ -4,11 +4,12 @@
 #include "stddef.h"
 #include "malloc.h"
 #include "main.h"
-#include "stm32f1xx_hal.h"
+#include "UserConfig.h"
+#include "MotorStep.h"
+//#include "stm32f1xx_hal.h"
 
 
-static int state = DO_STEPPING;
-TIM_HandleTypeDef htim2;
+
 
 void setupMotorInfo(MotorInfo *MotorInfoTable[],int start[],int end[]){
   int i=0,k=0,l=0,m=0;
@@ -63,7 +64,7 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
       else{
         MotorInfoTable[i]->Dostepping =0;
         stop =1;
-        
+
       }
       MotorInfoTable[i]->start+=1;
     }
@@ -100,51 +101,4 @@ void clearALLMotorinfoDostepping(MotorInfo *MotorInfoTable[]){
     MotorInfoTable[i]->Dostepping = 0;
   i++;
  }
-}
-
-/*a function to check the motorpin->Dostepping
-if Dostepping = 1
-call mock function :WritePinON
-else
-call mock Function :WritepinOFF
-*/
-void motorStep(MotorInfo *MotorInfoTable[]){
-  int i=0;
-    while(MotorInfoTable[i] !=NULL){
-      if(MotorInfoTable[i]->Dostepping == 1){
-       // WritePinON(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
-        convertMotorPinToGpioPinAndTurnOn(MotorInfoTable[i]->MotorPin);
-
-      }
-      else{
-        //WritePinOFF(MotorInfoTable[i]->GPIO,MotorInfoTable[i]->MotorPin);
-    	  convertMotorPinToGpioPinAndTurnOff(MotorInfoTable[i]->MotorPin);
-      }
-      i++;
-    }
-
-}
-
-// here is a function to check the motors's stepping either stepping or Not
-//if stepping thn toggle the pin of the motors
-void DoMotorStepping(MotorInfo *MotorInfoTable[]){
-  switch(state){
-    case DO_DELAY:
-         clearALLMotorinfoDostepping(MotorInfoTable);
-         motorStep(MotorInfoTable);
-         makeStepbasedOnBrenseham(MotorInfoTable);
-        // timer period = original value (200ms)
-        settimer2Periodvalue(6000);
-        state = DO_STEPPING;
-        break;
-    case DO_STEPPING:
-        motorStep(MotorInfoTable);
-        //timer period = 2(50us)
-        state =DO_DELAY;
-        settimer2Periodvalue(2);
-        HAL_TIM_Base_Stop_IT(&htim2);
-        break;
-    default:
-    	break;
-      }
 }

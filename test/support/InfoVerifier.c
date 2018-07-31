@@ -2,8 +2,10 @@
 #include "unity.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include "string.h"
 #include <malloc.h>
 #include "MotorController.h"
+
 
 char *createMessage(char *message, ...){
   va_list args;
@@ -18,7 +20,7 @@ char *createMessage(char *message, ...){
 
   return buffer;
 }
-void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end,char GPIO,int MotorPin, MotorInfo *MotorInfoTable[],int index,int lineNo){
+void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepping, int isReferencing, int start, int end,int MotorPin, MotorInfo *MotorInfoTable[],int index,int lineNo){
   char *error;
   if(name != MotorInfoTable[index]->name){
       error = createMessage("Expected motor to be motor (%c), but was motor (%c)",  \
@@ -58,11 +60,6 @@ void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepp
   else if(end != MotorInfoTable[index]->end){
       error = createMessage("Expected ending point to be %d, but was %d",  \
                                   end,MotorInfoTable[index]->end);
-        UNITY_TEST_FAIL(lineNo,error);
-      }
-  else if(GPIO !=MotorInfoTable[index]->GPIO){
-      error = createMessage("Expected MotorPin to be %c, but was %c",  \
-                                  GPIO,MotorInfoTable[index]->GPIO);
         UNITY_TEST_FAIL(lineNo,error);
       }
 else if(MotorPin != MotorInfoTable[index]->MotorPin){
