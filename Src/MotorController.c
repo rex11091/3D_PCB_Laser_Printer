@@ -86,16 +86,17 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
           else
           {
               MotorInfoTable[j]->Dostepping =0;
-              //stop timer interrupt
-              //HAL_TIM_Base_Stop_IT(&htim2);
-              //take care of this when compile
-             HAL_TIM_Base_Stop_IT(htim2);
-              return;
           }
         }
         j++;
       }
-  }
+    if(stop == 1){
+      //stop timer interrupt
+      //HAL_TIM_Base_Stop_IT(&htim2);
+      //take care of this when compile
+        HAL_TIM_Base_Stop_IT(htim2);
+    }
+}
 
 //set Motorinfo->Dostepping to 1
 void clearALLMotorinfoDostepping(MotorInfo *MotorInfoTable[]){
