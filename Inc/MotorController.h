@@ -1,7 +1,7 @@
 #ifndef _MOTORCONTROLLER_H
 #define _MOTORCONTROLLER_H
 
-#include "stm32f103xb.h"
+#include "step.h"
 #define ISTRUE 10
 #define ISFALSE 11
 #define DO_DELAY 12

@@ -1,6 +1,7 @@
 #include "unity.h"
 #include "MotorController.h"
 #include "InfoVerifier.h"
+#include "mock_stm32f1xx.h"
 
 void setUp(void)
 {
@@ -96,4 +97,25 @@ MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostep
      TEST_ASSERT_EQUAL_MOTORINFO('X',0,0,0,0,ISFALSE,8,MotorInfoTable,0);
      TEST_ASSERT_EQUAL_MOTORINFO('Y',0,0,0,0,ISFALSE,9,MotorInfoTable,1);
      TEST_ASSERT_EQUAL_MOTORINFO('Z',0,0,0,0,ISFALSE,10,MotorInfoTable,2);
+}
+
+void test_stop_timer(void)
+{
+  MotorInfo motorX=(MotorInfo){.name='X', .delta=2, .deltaRef=2, .error=1, .Dostepping=0,       \
+                                .isReferencing=ISTRUE, .GPIO =GPIOA, .MotorPin=8};
+  MotorInfo motorY=(MotorInfo){.name='Y', .delta=1, .deltaRef=2, .error=1, .Dostepping=0,        \
+                                .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=9};
+  MotorInfo motorZ=(MotorInfo){.name='Z', .delta=1, .deltaRef=2, .error=1, .Dostepping=0,       \
+                                .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=10};
+   MotorInfo *MotorInfoTable[] = {
+      &motorX,
+      &motorY,
+      &motorZ,
+       NULL,
+     };
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     HAL_TIM_Base_Stop_IT_Expect(htim2);
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     start_step=0;
 }

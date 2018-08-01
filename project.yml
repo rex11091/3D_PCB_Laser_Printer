@@ -6,7 +6,7 @@
 # This sample, therefore, only demonstrates running a collection of unit tests.
 
 :project:
-  :use_exceptions: FALSE
+  :use_exceptions: TRUE
   :use_test_preprocessor: TRUE
   :use_auxiliary_dependencies: TRUE
   :build_root: build
@@ -47,6 +47,9 @@
   :test:
     - *common_defines
     - TEST
+    - CEXCEPTION_USE_CONFIG_FILE
+    # The following macro is to ensure vsnprintf() returns the length of
+    # bytes needed to write when it fails due to buffer being too small
     - _ISOC99_SOURCE
   :test_preprocess:
     - *common_defines

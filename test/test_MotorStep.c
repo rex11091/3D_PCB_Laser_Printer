@@ -221,6 +221,8 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     //MotorTimer_Expect(STOP);
+     HAL_TIM_Base_Stop_IT_Expect(htim2);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);

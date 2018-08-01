@@ -8,8 +8,9 @@
 //#include "stm32f1xx_hal.h"
 
 
-int start_step =0; 
+int start_step =0;
 
+//delta nid change to step
 void setupMotorInfo(MotorInfo *MotorInfoTable[],int delta[]){
   int i=0,k=0,l=0,m=0;
   int j=1;
@@ -85,6 +86,11 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
           else
           {
               MotorInfoTable[j]->Dostepping =0;
+              //stop timer interrupt
+              //HAL_TIM_Base_Stop_IT(&htim2);
+              //take care of this when compile
+             HAL_TIM_Base_Stop_IT(htim2);
+              return;
           }
         }
         j++;
