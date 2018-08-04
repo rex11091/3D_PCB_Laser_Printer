@@ -92,9 +92,10 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
       }
     if(stop == 1){
       //stop timer interrupt
-      //HAL_TIM_Base_Stop_IT(&htim2);
+    //  HAL_TIM_Base_Stop_IT(&htim2);
       //take care of this when compile
-        HAL_TIM_Base_Stop_IT(htim2);
+        //HAL_TIM_Base_Stop_IT(htim2);
+        MOTORSTATUS = MOTOR_OK;
     }
 }
 
