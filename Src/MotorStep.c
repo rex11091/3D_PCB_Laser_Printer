@@ -28,10 +28,10 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
          clearALLMotorinfoDostepping(MotorInfoTable);
          SetAllmotorStep(MotorInfoTable);
          makeStepbasedOnBrenseham(MotorInfoTable);
-        /* timer period = original value (200ms)
+        /* timer period = original value (1.25ms)
 				rmb comment it when compile in ide
 				*/
-      //    settimer2Periodvalue(6000);
+          settimer2Periodvalue(100);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
@@ -40,7 +40,7 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
 				/* timer period = 2(50us)
 				rmb comment it when compile in ide
 				*/
-      //    settimer2Periodvalue(6000);
+          settimer2Periodvalue(2);
         break;
     default:
     	break;
