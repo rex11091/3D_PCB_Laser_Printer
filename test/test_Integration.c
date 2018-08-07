@@ -9,9 +9,11 @@
 #include "InfoVerifier.h"
 #include "mock_stm32f1xx.h"
 #include "mock_XYZSteps.h"
+#include "UserConfig.h"
 
 void setUp(void){}
 void tearDown(void){}
+
 
 
 GPIO_TypeDef *GPIOA = {0};
@@ -133,6 +135,7 @@ void test_G01_X100_Y99_Z50_F30_Expect_Converted_To_Steps_And_Motor_Run_Steps(voi
              Steps[i] = g00VarTableMapping[i].var->steps;
         }
         setupMotorInfo(MotorInfoTable,Steps);
+
         TEST_ASSERT_EQUAL_MOTORINFO('X',3,15,-9,0,ISFALSE,8,MotorInfoTable,0);
         TEST_ASSERT_EQUAL_MOTORINFO('Y',9,15,3,0,ISFALSE,9,MotorInfoTable,1);
         TEST_ASSERT_EQUAL_MOTORINFO('Z',15,15,0,0,ISTRUE,10,MotorInfoTable,2);
@@ -141,212 +144,149 @@ void test_G01_X100_Y99_Z50_F30_Expect_Converted_To_Steps_And_Motor_Run_Steps(voi
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
-
-        //when Z =1
+        //when Z = 1
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =2
+        //when Z = 2
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =3
+        //when Z = 3
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =4
+        //when Z = 4
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =5
+        //when Z = 5
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =6
+        //when Z = 6
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =7
+        //when Z = 7
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =8
+        //when Z = 8
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =9
+        //when Z = 9
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =10
+        //when Z = 10
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =11
+        //when Z = 11
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =12
+        //when Z = 12
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =13
+        //when Z = 13
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =14
+        //when Z = 14
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =15
+        //when Z = 15
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
-        DoMotorStepping(MotorInfoTable);
-
-        //when Z =16 (exceeds limit)
+        //when Z = 16
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
         HAL_TIM_Base_Stop_IT_Expect(htim2);
-        DoMotorStepping(MotorInfoTable);
-        TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
+        checkCommandCompletion(MotorInfoTable,HANDLE_CURRENT_CMD);
+
        }Catch(ex){
          dumpException(ex);
          }

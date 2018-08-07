@@ -31,7 +31,7 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
         /* timer period = original value (200ms)
 				rmb comment it when compile in ide
 				*/
-          settimer2Periodvalue(6000);
+      //    settimer2Periodvalue(6000);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
@@ -40,9 +40,41 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
 				/* timer period = 2(50us)
 				rmb comment it when compile in ide
 				*/
-          settimer2Periodvalue(6000);
+      //    settimer2Periodvalue(6000);
         break;
     default:
     	break;
       }
+}
+
+void checkCommandCompletion(MotorInfo *MotorInfoTable[],int state)
+{
+  int i = DOSTEPPING;
+  while(i == DOSTEPPING)
+  {
+  	switch(state)
+  	{
+  		case HANDLE_CURRENT_CMD:
+  				DoMotorStepping(MotorInfoTable);
+  				state = WAIT_FOR_CURRENT_CMD_TO_COMPLETE;
+  				break;
+  		case WAIT_FOR_CURRENT_CMD_TO_COMPLETE:
+  				if(MOTORSTATUS == MOTOR_OK)
+  				{
+  					state = HANDLE_NEXT_CMD;
+            i = COMPLETE;
+  				}
+  				else
+  				{
+  					state = HANDLE_CURRENT_CMD;
+
+  				}
+          break;
+      case HANDLE_NEXT_CMD:
+          return;
+  				break;
+  		default:
+  				break;
+  	}
+  }
 }
