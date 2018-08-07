@@ -3,6 +3,11 @@
 #include "MotorController.h"
 #include "main.h"
 
+#define HANDLE_CURRENT_CMD 100
+#define WAIT_FOR_CURRENT_CMD_TO_COMPLETE 101
+#define HANDLE_NEXT_CMD 102
+#define DOSTEPPING 103
+#define COMPLETE 104
 
 // motor step intervert period
 #define MOTOR_STEP_INT_PERIOD 6000
@@ -20,7 +25,7 @@
 #define MOTORZ_STEP_PIN       	GPIO_PIN_10  /* Pin 10 selected   */
 
 
-extern TIM_HandleTypeDef htim2;
+//extern TIM_HandleTypeDef htim2;
 
 
 
