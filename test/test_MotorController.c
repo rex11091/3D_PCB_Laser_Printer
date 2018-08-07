@@ -99,7 +99,23 @@ MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostep
      TEST_ASSERT_EQUAL_MOTORINFO('Z',0,0,0,0,ISFALSE,10,MotorInfoTable,2);
 }
 
-void test_stop_timer(void)
+void test_mocking_timer_interrupt_expect_will_be_call_1times_after_1_step_with_one_motor_to_destination_expect_timerinterruptFunction_be_call(void)
+{
+  MotorInfo motorX=(MotorInfo){.name='X', .delta=1, .deltaRef=1, .error=1, .Dostepping=0,       \
+                                .isReferencing=ISTRUE, .GPIO =GPIOA, .MotorPin=8};
+   MotorInfo *MotorInfoTable[] = {
+      &motorX,
+       NULL,
+     };
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     HAL_TIM_Base_Stop_IT_Expect(htim2);
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     start_step=0;
+}
+
+
+
+void test_mocking_timer_interrupt_expect_will_be_call_1times_after_longest_3_step_to_destination_expect_timerinterruptFunction_be_call(void)
 {
   MotorInfo motorX=(MotorInfo){.name='X', .delta=2, .deltaRef=2, .error=1, .Dostepping=0,       \
                                 .isReferencing=ISTRUE, .GPIO =GPIOA, .MotorPin=8};

@@ -2,6 +2,7 @@
 #define _MOTORCONTROLLER_H
 
 #include "step.h"
+#include "Integration.h"
 #define ISTRUE 10
 #define ISFALSE 11
 #define DO_DELAY 12

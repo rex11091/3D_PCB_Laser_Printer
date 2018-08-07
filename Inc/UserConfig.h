@@ -20,7 +20,7 @@
 #define MOTORZ_STEP_PIN       	GPIO_PIN_10  /* Pin 10 selected   */
 
 
-//extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim2;
 
 
 

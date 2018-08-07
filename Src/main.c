@@ -43,6 +43,7 @@
 /* USER CODE BEGIN Includes */
 #include "MotorController.h"
 #include "UserConfig.h"
+#include "CommandCode.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -64,6 +65,30 @@ static void MX_TIM2_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+  int Steps[2]={0,0,0};
+  StoreCMD cmd1 = {0,0,0,0};
+  Variable xVar = {0,0,0,0};
+  Variable yVar = {0,0,0,0};
+  Variable zVar = {0,0,0,0};
+  Variable fVar = {0,0,0,0};
+
+  VariableMap g00VarTableMapping[] = {
+    {'X',&xVar},
+    {'Y',&yVar},
+    {'Z',&zVar},
+    {'F',&fVar},
+    {NULL,NULL},
+  };
+
+  GCodeMapping GCode00[] = {
+    {.name = "G",.code = 1,.varMap = g00VarTableMapping,.doOperation = handleG01},
+    {.name = "G",.code = 21,.varMap = NULL,.doOperation = handleG20or21},
+    {NULL,NULL,NULL,NULL},
+  };
+
+
+
+
 MotorInfo motorX={.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
                   .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORX_STEP_PIN};
 
@@ -79,7 +104,7 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
      // &motorZ,
        NULL,
      };
-  int delta[] = {5,4};
+  int delta[] = {500,100};
 
 
 /* USER CODE END 0 */
@@ -92,9 +117,17 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	setupMotorInfo(MotorInfoTable,delta);
-  /* USER CODE END 1 */
+	  char *SetUp = "G21";
+	  char *line = "G01 Y101 X300 f10";
+      cmd1 = decodeGcode(SetUp,GCode00);
+	  cmd1 = decodeGcode(line,GCode00);
+	   for(int i=0;i<3;i++)
+	   {
+	        Steps[i] = g00VarTableMapping[i].var->steps;
+	   }
 
+	setupMotorInfo(MotorInfoTable,Steps);
+  /* USER CODE END 1 */
   /* MCU Configuration----------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -130,7 +163,9 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
+	 // HAL_GPIO_TogglePin(MOTOR_STEP_GPIO_PORT,MOTORX_STEP_PIN);
+	 // HAL_Delay(20);
+	  //HAL_GPIO_WritePin(MOTOR_STEP_GPIO_PORT,MOTORY_STEP_PIN,HIGH);
   }
   /* USER CODE END 3 */
 

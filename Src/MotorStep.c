@@ -31,7 +31,7 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
         /* timer period = original value (200ms)
 				rmb comment it when compile in ide
 				*/
-        //  settimer2Periodvalue(MOTOR_STEP_INT_PERIOD);
+          settimer2Periodvalue(6000);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
@@ -40,7 +40,7 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
 				/* timer period = 2(50us)
 				rmb comment it when compile in ide
 				*/
-        //  settimer2Periodvalue(MOTOR_STEP_INT_PERIOD);
+          settimer2Periodvalue(6000);
         break;
     default:
     	break;

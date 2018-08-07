@@ -3,6 +3,7 @@
 #include "Exception.h"
 #include "error.h"
 #include "XYZSteps.h"
+#include "Integration.h"
 
 int isInMM = TRUE;
 int isAbsolute = TRUE;
@@ -21,8 +22,9 @@ StoreCMD decodeGcode(char *line,GCodeMapping *GCode)
     {
     *GCode++;
     }
+    MOTORSTATUS = MOTOR_BUSY;
     (GCode)->doOperation(GCode->code,GCode->varMap);
-
+    // while(MOTORSTATUS != MOTOR_OK);
     return cmd;
 }
 
@@ -211,7 +213,6 @@ void handleG90orG91(int code,Variable *table)
 }
 void handleG00(int code,VariableMap *g00VarTableMapping)
 {
-  int i=0;
   int steps;
   if(isInMM == TRUE)
   {
@@ -219,12 +220,11 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
         {
             g00VarTableMapping->var->steps = MM_TO_STEPS(g00VarTableMapping->var->value);
             steps = g00VarTableMapping->var->steps;
-            if(steps != 0)
-            {
-              SetUpMotorInfo(NULL,steps);
-            }
+//            if(steps != 0)
+//            {
+//              SetUpMotorInfo(NULL,steps);
+//            }
             *(g00VarTableMapping)++;
-            i++;
         }
   }
   else
@@ -232,13 +232,12 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
     while(g00VarTableMapping->var!=NULL)
     {
         g00VarTableMapping->var->steps = INCH_TO_STEPS(g00VarTableMapping->var->value);
-        steps = g00VarTableMapping->var->steps;
-        if(steps != 0)
-        {
-          SetUpMotorInfo(NULL,steps);
-        }
+//        steps = g00VarTableMapping->var->steps;
+//        if(steps != 0)
+//        {
+//          SetUpMotorInfo(NULL,steps);
+//        }
         *(g00VarTableMapping)++;
-        i++;
     }
   }
   // while(i != 0)
@@ -251,7 +250,6 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
 void handleG01(int code,VariableMap *g01VarTableMapping)
 {
   int feedrate = 0;
-  int i=0;
   int steps;
   feedrate = Findfeedrate('F',g01VarTableMapping);
 
@@ -266,18 +264,16 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
           if(g01VarTableMapping->var->name == 'F')
           {
             *(g01VarTableMapping)++;
-            i++;
           }
           else
           {
             g01VarTableMapping->var->steps = MM_TO_STEPS(g01VarTableMapping->var->value) * feedrate;
-            steps = g01VarTableMapping->var->steps;
-            if(steps != 0)
-            {
-              SetUpMotorInfo(NULL,steps);
-            }
+//            steps = g01VarTableMapping->var->steps;
+//            if(steps != 0)
+//            {
+//              SetUpMotorInfo(NULL,steps);
+//            }
             *(g01VarTableMapping)++;
-            i++;
           }
         }
   }
@@ -288,18 +284,16 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
         if(g01VarTableMapping->var->name == 'F')
         {
           *(g01VarTableMapping)++;
-          i++;
         }
         else
         {
           g01VarTableMapping->var->steps = INCH_TO_STEPS(g01VarTableMapping->var->value) * feedrate;
-          steps = g01VarTableMapping->var->steps;
-          if(steps != 0)
-          {
-            SetUpMotorInfo(NULL,steps);
-          }
+//          steps = g01VarTableMapping->var->steps;
+//          if(steps != 0)
+//          {
+//            SetUpMotorInfo(NULL,steps);
+//          }
           *(g01VarTableMapping)++;
-          i++;
         }
 
     }
