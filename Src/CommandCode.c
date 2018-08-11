@@ -143,7 +143,12 @@ void getVariables(char *line,GCodeMapping *GCode)
     i--;
   }
 }
-  if(*line != NULL)
+
+  if((*line == '/n')||(*line == '/r')||(*line == '@'))
+  {
+
+  }
+  else if(*line != NULL)
   {
     throwException(VARIABLE_DOES_NOT_EXIST,"Error! Variable does not exist in this command",*line);
   }

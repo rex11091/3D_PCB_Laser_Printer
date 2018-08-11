@@ -17,4 +17,9 @@ void testAssertEqualMotorInfo(char name, int delta, int df, int err, int Dostepp
 
 void testAssertEqualMotorStepping(int motorX,int motorY,int motorZ, int DosteppingX, int DosteppingY,\
                               int DosteppingZ,int lineNo);
+
+#define TEST_ASSERT_EQUAL_ARRAY(buffer,len,Buf)  \
+                          testAssertEqualArray(buffer,len,Buf,__LINE__)
+
+void testAssertEqualArray(char buffer[],int len,uint8_t *Buf,int lineNo);
 #endif // _INFOVERIFIER_H

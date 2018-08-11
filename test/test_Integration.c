@@ -7,9 +7,9 @@
 #include "CException.h"
 #include "MotorStep.h"
 #include "InfoVerifier.h"
-#include "mock_stm32f1xx.h"
 #include "mock_XYZSteps.h"
 #include "UserConfig.h"
+#include "mock_stm32f1xx.h"
 
 void setUp(void){}
 void tearDown(void){}
@@ -284,7 +284,7 @@ void test_G01_X100_Y99_Z50_F30_Expect_Converted_To_Steps_And_Motor_Run_Steps(voi
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        HAL_TIM_Base_Stop_IT_Expect(htim2);
+        HAL_TIM_Base_Stop_IT_Expect(htim3);
         checkCommandCompletion(MotorInfoTable,HANDLE_CURRENT_CMD);
 
        }Catch(ex){

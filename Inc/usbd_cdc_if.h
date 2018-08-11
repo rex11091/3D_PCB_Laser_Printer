@@ -57,13 +57,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_cdc.h"
-#include "string.h"
 
 /* USER CODE BEGIN INCLUDE */
 int status;
 #define DATA_IS_READY 15
 #define START_TIMER 16
 #define COUNTING_TIMER 17
+#define START_NEW_DATA 18
 char data[20];
 char input[20];
 

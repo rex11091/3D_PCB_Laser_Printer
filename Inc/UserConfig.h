@@ -8,6 +8,7 @@
 #define HANDLE_NEXT_CMD 102
 #define DOSTEPPING 103
 #define COMPLETE 104
+#define MOTOR_DO_NEXT 105
 
 // motor step intervert period
 #define MOTOR_STEP_INT_PERIOD 6000

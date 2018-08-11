@@ -3,7 +3,7 @@
 #include "stdint.h"
 #include "stm32f103xb.h"
 
-#define htim2 91
+#define htim3 77
 
 void HAL_GPIO_WritePin(GPIO_TypeDef *GPIO, uint32_t pin,int GPIO_PinState);
 void HAL_TIM_Base_Stop_IT(int htim);

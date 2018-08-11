@@ -81,3 +81,20 @@ void testAssertEqualMotorStepping(int motorX,int motorY,int motorZ, int Dosteppi
     }
 
 }
+
+void testAssertEqualArray(char buffer[],int len,uint8_t *Buf,int lineNo)
+{
+  char *error;
+  while(buffer[len]!=NULL)
+  {
+    if(buffer[len] != *Buf){
+      error = createMessage("Expected Buffer[%d] is equal to (%c) but was (%c), \
+      ",len,*Buf,buffer[len]);
+      UNITY_TEST_FAIL(lineNo,error);
+    }
+    else{
+      len++;
+      Buf++;
+    }
+  }
+}

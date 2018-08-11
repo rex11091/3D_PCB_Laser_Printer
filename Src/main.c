@@ -50,17 +50,20 @@
 #include "main.h"
 #include "stm32f1xx_hal.h"
 #include "usb_device.h"
-#include <stdio.h>
 
 /* USER CODE BEGIN Includes */
 #include "MotorController.h"
 #include "UserConfig.h"
 #include "CommandCode.h"
-#include "usbd_cdc_if.h""
+#include "usbd_cdc_if.h"
+#include "Exception.h"
+#include "CExceptionConfig.h"
+#include "CException.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
+
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
@@ -70,7 +73,6 @@ TIM_HandleTypeDef htim2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
-extern void initialise_monitor_handles(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -78,24 +80,25 @@ extern void initialise_monitor_handles(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+	CEXCEPTION_T ex;
   int Steps[2]={0,0,0};
   StoreCMD cmd1 = {0,0,0,0};
   Variable xVar = {0,0,0,0};
   Variable yVar = {0,0,0,0};
-  Variable zVar = {0,0,0,0};
-  Variable fVar = {0,0,0,0};
+//  Variable zVar = {0,0,0,0};
+//  Variable fVar = {0,0,0,0};
 
   VariableMap g00VarTableMapping[] = {
     {'X',&xVar},
     {'Y',&yVar},
-    {'Z',&zVar},
-    {'F',&fVar},
+//    {'Z',&zVar},
+//    {'F',&fVar},
     {NULL,NULL},
   };
 
   GCodeMapping GCode00[] = {
-    {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    //{.name = "G",.code = 21,.varMap = NULL,.doOperation = handleG20or21},
+    {.name = "G",.code = 1,.varMap = g00VarTableMapping,.doOperation = handleG01},
+    {.name = "G",.code = 21,.varMap = NULL,.doOperation = handleG20or21},
     {NULL,NULL,NULL,NULL},
   };
 
@@ -108,8 +111,8 @@ MotorInfo motorX={.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
 MotorInfo motorY={.name='Y', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
                   .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORY_STEP_PIN};
 
-MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
-                  .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORZ_STEP_PIN};
+//MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
+//                  .isReferencing=ISFALSE, .GPIO =MOTOR_STEP_GPIO_PORT, .MotorPin=MOTORZ_STEP_PIN};
 
  MotorInfo *MotorInfoTable[] = {
       &motorX,
@@ -118,6 +121,8 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
        NULL,
      };
   int delta[] = {500,100};
+  char *complete = "OK";
+  char buffer[100];
 
 
 /* USER CODE END 0 */
@@ -129,20 +134,20 @@ MotorInfo motorZ={.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostepping=0, \
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
+
 	initialise_monitor_handles();
 
-//	  char *SetUp = "G21";
-//	  char *line = "G01 Y101 X300 f10";
-//
-//      cmd1 = decodeGcode(SetUp,GCode00);
-//	  cmd1 = decodeGcode(line,GCode00);
-//	   for(int i=0;i<3;i++)
-//	   {
-//	        Steps[i] = g00VarTableMapping[i].var->steps;
-//	   }
-//	setupMotorInfo(MotorInfoTable,Steps);
+	  char *SetUp = "G21";
+	  char *line = "G01 Y101 X300 f10";
+
+      cmd1 = decodeGcode(SetUp,GCode00);
+	  cmd1 = decodeGcode(line,GCode00);
+	   for(int i=0;i<3;i++)
+	   {
+	        Steps[i] = g00VarTableMapping[i].var->steps;
+	   }
+	setupMotorInfo(MotorInfoTable,Steps);
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -173,33 +178,47 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//	 HAL_TIM_Base_Start_IT(&htim2);
+
+ HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_TIM_Base_Start_IT(&htim2);
   while (1)
   {
-		 while(status == DATA_IS_READY)
-		 {
-			      cmd1 = decodeGcode(data,GCode00);
-//			 	  cmd1 = decodeGcode(line,GCode00);
-			 	   for(int i=0;i<3;i++)
-			 	   {
-			 	        Steps[i] = g00VarTableMapping[i].var->steps;
-			 	   }
-			 	setupMotorInfo(MotorInfoTable,Steps);
-			 	status = START_TIMER;
-			 	if(status = START_TIMER)
-			 	{
-			 		 HAL_TIM_Base_Start_IT(&htim2);
-			 		 status = COUNTING_TIMER;
-			 	}
-		 }
-	// HAL_TIM_Base_Start_IT(&htim2);
-	 // HAL_TIM_Base_Start(&htim2);
+//		 if(status == DATA_IS_READY)
+//		 {
+//			 Try{
+//			      cmd1 = decodeGcode(data,GCode00);
+////			 	  cmd1 = decodeGcode(line,GCode00);
+//			 	   for(int i=0;i<3;i++)
+//			 	   {
+//			 	        Steps[i] = g00VarTableMapping[i].var->steps;
+//			 	   }
+//			 	setupMotorInfo(MotorInfoTable,Steps);
+//			 	status = START_TIMER;
+//			 	HAL_TIM_Base_Start_IT(&htim2);
+//			 	while(MOTORSTATUS != MOTOR_OK)
+//			 	{
+//			 	}
+//			 if(MOTORSTATUS == MOTOR_OK)
+//			 {
+//				 CDC_Transmit_FS(complete,strlen(complete));
+//				 status == START_NEW_DATA;
+//				 MOTORSTATUS = MOTOR_DO_NEXT;
+//			 }
+//			}
+//			 Catch(ex)
+//			 {
+//				 dumpException(ex);
+//				 snprintf(buffer, 100, "%s %c (err=%d)\n",ex->msg,ex->data,ex->errorCode);
+//				 CDC_Transmit_FS(buffer, strlen(buffer));
+//				 volatile int i;
+//				 //CDC_Transmit_FS(ex->msg, strlen(ex->msg));
+//			 }
+//		 }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	 // HAL_GPIO_TogglePin(MOTOR_STEP_GPIO_PORT,MOTORX_STEP_PIN);
-	 // HAL_Delay(20);
-	  //HAL_GPIO_WritePin(MOTOR_STEP_GPIO_PORT,MOTORY_STEP_PIN,HIGH);
+
+
   }
   /* USER CODE END 3 */
 
@@ -314,7 +333,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
