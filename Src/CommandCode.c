@@ -144,7 +144,7 @@ void getVariables(char *line,GCodeMapping *GCode)
   }
 }
 
-  if((*line == '/n')||(*line == '/r')||(*line == '@'))
+  if((*line == 10)||(*line == 13)||(*line == 64))
   {
 
   }
@@ -224,11 +224,11 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
         while(g00VarTableMapping->var!=NULL)
         {
             g00VarTableMapping->var->steps = MM_TO_STEPS(g00VarTableMapping->var->value);
-//            steps = g00VarTableMapping->var->steps;
-//           if(steps != 0)
-//           {
-//             SetUpMotorInfo(NULL,steps);
-//           }
+          //  steps = g00VarTableMapping->var->steps;
+          // if(steps != 0)
+          // {
+          //   SetUpMotorInfo(NULL,steps);
+          // }
             *(g00VarTableMapping)++;
         }
   }
@@ -237,11 +237,11 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
     while(g00VarTableMapping->var!=NULL)
     {
         g00VarTableMapping->var->steps = INCH_TO_STEPS(g00VarTableMapping->var->value);
-//       steps = g00VarTableMapping->var->steps;
-//       if(steps != 0)
-//       {
-//         SetUpMotorInfo(NULL,steps);
-//       }
+      // steps = g00VarTableMapping->var->steps;
+      // if(steps != 0)
+      // {
+      //   SetUpMotorInfo(NULL,steps);
+      // }
         *(g00VarTableMapping)++;
     }
   }
@@ -273,11 +273,11 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
           else
           {
             g01VarTableMapping->var->steps = MM_TO_STEPS(g01VarTableMapping->var->value) * feedrate;
-//           steps = g01VarTableMapping->var->steps;
-//           if(steps != 0)
-//           {
-//             SetUpMotorInfo(NULL,steps);
-//           }
+          // steps = g01VarTableMapping->var->steps;
+          // if(steps != 0)
+          // {
+          //   SetUpMotorInfo(NULL,steps);
+          // }
             *(g01VarTableMapping)++;
           }
         }
@@ -293,11 +293,11 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
         else
         {
           g01VarTableMapping->var->steps = INCH_TO_STEPS(g01VarTableMapping->var->value) * feedrate;
-//         steps = g01VarTableMapping->var->steps;
-//         if(steps != 0)
-//         {
-//           SetUpMotorInfo(NULL,steps);
-//         }
+        // steps = g01VarTableMapping->var->steps;
+        // if(steps != 0)
+        // {
+        //   SetUpMotorInfo(NULL,steps);
+        // }
           *(g01VarTableMapping)++;
         }
 

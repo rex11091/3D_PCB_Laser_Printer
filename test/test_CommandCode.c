@@ -31,7 +31,7 @@ void test_G00_expect_G0_cmd_X_var_100_value(void)
   char *line = "G00 X100";
 
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -65,7 +65,7 @@ void test_space_G00_expect_G0_cmd_X_var_100_value(void)
   char *line = " G00 X100";
 
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -93,7 +93,7 @@ void test_E00_expect_throw_exception_error_command(void)
   };
   GCodeMapping GCode00[] = {
     {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    {NULL,NULL,NULL},
+    {NULL,NULL,NULL,NULL},
   };
   char *line = "E00 X100";
 
@@ -149,7 +149,7 @@ void test_G_space_00_expect_G0_cmd_X_var_100_value(void)
   char *line = "G 00 X100";
 
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -216,7 +216,7 @@ void test_G001_expect_G1_cmd_X_var_100_val(void)
   char *line = "G001 X100";
 
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
     cmd = decodeGcode(line,GCode001);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(1,cmd.code);
@@ -281,8 +281,8 @@ void test_G00_expect_G0_cmd_X_var_101_value_Y_var_999_value(void)
   };
   char *line = "G00 X101 Y999";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -379,9 +379,9 @@ void test_G00_expect_G0_cmd_X_var_999_value_Y_var_101_value_Z_var_20_value(void)
   };
   char *line = "G00 Y101 X999 Z20";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -423,9 +423,9 @@ void test_G001_expect_G1_cmd_X_var_100_val_Y_var_20_val_Z_var_30_val_F_var_200_v
   char *line = "G001 X100 Y20 Z30 F200";
 
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(line,GCode001);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(1,cmd.code);
@@ -470,9 +470,9 @@ void test_G00_expect_G0_cmd_Y_var_101_value_X_var_999_value_Z_var_21_value(void)
   };
   char *line = "G00Y101X999Z21";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -569,9 +569,9 @@ void test_G00_with_dash_on_var_expect_G0_cmd_X_var_99_value_Y_var_101_value_Z_va
   };
   char *line = "G00 Y101 X - 99 Z - 20";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -612,9 +612,9 @@ void test_G00_expect_G0_cmd_X_var_99_point_99_value_Y_var_101_value_Z_var_20_val
   };
   char *line = "G00 Y101 X99.99 Z20";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(line,GCode00);
     TEST_ASSERT_EQUAL('G',cmd.type);
     TEST_ASSERT_EQUAL(0,cmd.code);
@@ -685,9 +685,9 @@ void test_G20_G00_Y101_X99_point_99_Z_20_expect_value_from_MM_to_Steps(void)
   char *SetUp = "G20";
   char *line = "G00 Y101 X99.99 Z20";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(SetUp,GCode);
     cmd = decodeGcode(line,GCode);
     TEST_ASSERT_EQUAL('G',cmd.type);
@@ -732,9 +732,9 @@ void test_G21_G00_Y101_X99_point_99_Z_20_expect_value_from_INCH_to_Steps(void)
   char *SetUp = "G21";
   char *line = "G00 Y101 X99.99 Z20";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(SetUp,GCode);
     cmd = decodeGcode(line,GCode);
     TEST_ASSERT_EQUAL('G',cmd.type);
@@ -779,9 +779,9 @@ void test_g21_g00_y101_x99_point_99_z20_expect_variable_toupper_and_value_from_I
   char *SetUp = "g21";
   char *line = "g00 y101 x99.99 Z20";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(SetUp,GCode);
     cmd = decodeGcode(line,GCode);
     TEST_ASSERT_EQUAL('G',cmd.type);
@@ -848,9 +848,9 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
   char *SetUp2 = "G91";
   char *line2 = "G01 Z10 Y20 X15 F100";
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
     cmd = decodeGcode(SetUp,GCode);
     cmd = decodeGcode(line,GCode);
     TEST_ASSERT_EQUAL('G',cmd.type);
@@ -864,9 +864,9 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
     TEST_ASSERT_EQUAL(31,xVar.steps);
     TEST_ASSERT_EQUAL(31,yVar.steps);
     TEST_ASSERT_EQUAL(6,zVar.steps);
-    SetUpMotorInfo_ExpectAndReturn(NULL,x1Steps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,y1Steps,1);
-    SetUpMotorInfo_ExpectAndReturn(NULL,z1Steps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,x1Steps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,y1Steps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,z1Steps,1);
     cmd1 = decodeGcode(SetUp2,GCode);
     cmd1 = decodeGcode(line2,GCode);
     TEST_ASSERT_EQUAL('G',cmd1.type);
