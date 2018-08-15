@@ -57,6 +57,7 @@ StoreCMD decodeGcode(char *line,GCodeMapping *GCode);
 char *getGcodeCommand(char *line,GCodeMapping *GCode,StoreCMD *cmd);
 void getVariables(char *line,GCodeMapping *GCode);
 char *getValue(char *line,GCodeMapping *GCode);
+void ClearVariablesValue(VariableMap *var);
 
 
 

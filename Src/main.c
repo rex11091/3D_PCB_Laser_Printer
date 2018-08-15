@@ -109,38 +109,8 @@ static void MX_TIM2_Init(void);
 
   GCodeMapping GCode00[] = {
     {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-
     {.name = "G",.code = 1,.varMap = g01VarTableMapping,.doOperation = handleG01},
     {.name = "G",.code = 21,.varMap = NULL,.doOperation = handleG20or21},
-    {NULL,NULL,NULL,NULL},
-  };
-
-  GCodeMapping GCode00_ONE[] = {
-    {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    {.name = "G",.code = 1,.varMap = g01VarTableMapping,.doOperation = handleG01},
-    {NULL,NULL,NULL,NULL},
-  };
-
-  GCodeMapping GCode00_TWO[] = {
-    {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    {.name = "G",.code = 1,.varMap = g01VarTableMapping,.doOperation = handleG01},
-    {NULL,NULL,NULL,NULL},
-  };
-
-  GCodeMapping GCode00_THREE[] = {
-    {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    {.name = "G",.code = 1,.varMap = g01VarTableMapping,.doOperation = handleG01},
-    {NULL,NULL,NULL,NULL},
-  };
-
-  GCodeMapping GCode00_FOUR[] = {
-    {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    {.name = "G",.code = 1,.varMap = g01VarTableMapping,.doOperation = handleG01},
-    {NULL,NULL,NULL,NULL},
-  };
-  GCodeMapping GCode00_FIVE[] = {
-    {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
-    {.name = "G",.code = 1,.varMap = g01VarTableMapping,.doOperation = handleG01},
     {NULL,NULL,NULL,NULL},
   };
 
@@ -178,18 +148,6 @@ int main(void)
 
 	initialise_monitor_handles();
 
-//
-//	  char *SetUp = "G21";
-//	  char *line = "G01 Y101 X300 f10";
-//
-//      cmd1 = decodeGcode(SetUp,GCode00);
-//	  cmd1 = decodeGcode(line,GCode00);
-//	   for(int i=0;i<3;i++)
-//	   {
-//	        Steps[i] = g00VarTableMapping[i].var->steps;
-//	   }
-//	setupMotorInfo(MotorInfoTable,Steps);
-
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -220,75 +178,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	//HAL_GPIO_TogglePin(MOTOR_STEP_GPIO_PORT,MOTORX_STEP_PIN);
-	//HAL_Delay(200);
-	//HAL_GPIO_TogglePin(MOTOR_STEP_GPIO_PORT,MOTORY_STEP_PIN);
-	//HAL_Delay(200);
-	//HAL_GPIO_WritePin(MOTOR_ENABLE_GPIO_PORT,MOTOR_ENABLE_PIN, LOW);
-  //configureMotorandStartTimer();
   while (1)
   {
 	  DecodeandStepMotor();
-//		HAL_GPIO_TogglePin(MOTOR_STEP_GPIO_PORT,MOTORX_STEP_PIN);
-//		HAL_Delay(200);
-//		HAL_GPIO_TogglePin(MOTOR_STEP_GPIO_PORT,MOTORY_STEP_PIN);
-//		HAL_Delay(200);
-//		 if(status == DATA_IS_READY)
-//		 {
-//			 Try{
-//			      cmd1 = decodeGcode(buffer,GCode00);
-//					memset(buffer,0,sizeof(buffer));
-////			 	  cmd1 = decodeGcode(line,GCode00);
-//					if(cmd1.code == 1)
-//					{
-//						E = 1;
-//					}
-//					else
-//					{
-//						E = 0;
-//					}
-//					if(E==0){
-//					   for(int i=0;i<3;i++)
-//					   {
-//							Steps[i] = g00VarTableMapping[i].var->steps;
-//					   }
-//						   setupMotorInfo(MotorInfoTable,Steps);
-//
-//						}
-//					else{
-//					 	   for(int i=0;i<3;i++)
-//					 	   {
-//					 	        Steps[i] = g01VarTableMapping[i].var->steps;
-//					 	   }
-//					 	setupMotorInfo(MotorInfoTable,Steps);
-//					}
-//			 	configureMotorandStartTimer();
-////			 	HAL_TIM_Base_Start_IT(&htim2);
-//			 	while(MOTORSTATUS != MOTOR_OK)
-//			 	{
-//			 	}
-//			 if(MOTORSTATUS == MOTOR_OK)
-//			 {
-//				 CDC_Transmit_FS(complete,strlen(complete));
-//				 MOTORSTATUS = MOTOR_DO_NEXT;
-//				 status = WAIT_FOR_NXT_CMD;
-////				 buffer[0] = 0;
-//				 //memset(input,0,sizeof(input));
-//			 }
-//			}
-//			 Catch(ex)
-//			 {
-//				 dumpException(ex);
-//				 if(ex!=NULL){
-//				 snprintf(buffer1, 100, "%s %c (err=%d)\n",ex->msg,ex->data,ex->errorCode);
-//				 CDC_Transmit_FS(buffer1, strlen(buffer1));
-//				 }
-//				 freeException(ex);
-//				 status = WAIT_FOR_NXT_CMD;
-//				 volatile int i;
-//				 //CDC_Transmit_FS(ex->msg, strlen(ex->msg));
-//			 }
-//		 }
+
 
   /* USER CODE END WHILE */
 

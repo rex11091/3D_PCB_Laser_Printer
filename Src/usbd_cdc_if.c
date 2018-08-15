@@ -310,6 +310,7 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 //			return (USBD_OK);
 	if(*Buf == 13){
 
+		//memset(buffer,0,sizeof(buffer));
 		memcpy(input+z,"\n",2);
 		strcpy(buffer,input);
 		status = DATA_IS_READY;

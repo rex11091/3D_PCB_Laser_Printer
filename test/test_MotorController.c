@@ -79,6 +79,32 @@ void test_makeStepbasedOnBrenseham_either_stepping_or_not_given_motorY_is_longes
      TEST_ASSERT_EQUAL_MOTORINFO('Z',1,6,-2,0,ISFALSE,10,MotorInfoTable,2);
      start_step=0;
 }
+
+
+void test_makeStepbasedOnBrenseham(void)
+{
+  MotorInfo motorX=(MotorInfo){.name='X', .delta=2, .deltaRef=2, .error=0, .Dostepping=1,       \
+                                .isReferencing=ISTRUE, .GPIO =GPIOA, .MotorPin=8};
+  MotorInfo motorY=(MotorInfo){.name='Y', .delta=1, .deltaRef=2, .error=0, .Dostepping=0,        \
+                                .isReferencing=ISFALSE, .GPIO =GPIOA, .MotorPin=9};
+   MotorInfo *MotorInfoTable[] = {
+      &motorX,
+      &motorY,
+       NULL,
+     };
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     TEST_ASSERT_EQUAL_MOTORINFO('X',2,2,0,1,ISTRUE,8,MotorInfoTable,0);
+     TEST_ASSERT_EQUAL_MOTORINFO('Y',1,2,-2,1,ISFALSE,9,MotorInfoTable,1);
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     TEST_ASSERT_EQUAL_MOTORINFO('X',2,2,0,1,ISTRUE,8,MotorInfoTable,0);
+     TEST_ASSERT_EQUAL_MOTORINFO('Y',1,2,0,0,ISFALSE,9,MotorInfoTable,1);
+     HAL_TIM_Base_Stop_IT_Expect(&htim2);
+     makeStepbasedOnBrenseham(MotorInfoTable);
+     TEST_ASSERT_EQUAL_MOTORINFO('X',0,0,0,0,ISTRUE,8,MotorInfoTable,0);
+     TEST_ASSERT_EQUAL_MOTORINFO('Y',0,0,0,0,ISFALSE,9,MotorInfoTable,1);
+     start_step=0;
+}
+
 void test_clearALLMotorinfoDostepping_expect_all_the_motorinfo_Dostepping_set_to_zero(void)
 {
 MotorInfo motorX=(MotorInfo){.name='X', .delta=0, .deltaRef=0, .error=0, .Dostepping=1,     \
