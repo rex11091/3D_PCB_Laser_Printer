@@ -15,7 +15,6 @@ void tearDown(void)
 {
 }
 GPIO_TypeDef *GPIOA = {0};
-GPIO_TypeDef *GPIOB = {0};
 
 /*
 this test only doing do a step of going up and down
@@ -104,11 +103,13 @@ MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=-1, .Doste
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+     settimer2Periodvalue_Expect(2);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     settimer2Periodvalue_Expect(38);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
 
@@ -149,6 +150,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+    settimer2Periodvalue_Expect(2);
     DoMotorStepping(MotorInfoTable);
     TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
     //when x =1
@@ -156,11 +158,13 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+    settimer2Periodvalue_Expect(38);
     DoMotorStepping(MotorInfoTable);
     //state DO_STEPPING
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+    settimer2Periodvalue_Expect(2);
     DoMotorStepping(MotorInfoTable);
     TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
 
@@ -170,6 +174,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+    settimer2Periodvalue_Expect(38);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
 
@@ -177,6 +182,7 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
     HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
     HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+    settimer2Periodvalue_Expect(2);
      DoMotorStepping(MotorInfoTable);
 
      //when X=3
@@ -184,12 +190,14 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     settimer2Periodvalue_Expect(38);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(1,0,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
      //state DO_STEPPING
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+     settimer2Periodvalue_Expect(2);
      DoMotorStepping(MotorInfoTable);
 
      //when X=4
@@ -197,12 +205,14 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     settimer2Periodvalue_Expect(38);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
      //state DO_STEPPING
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     settimer2Periodvalue_Expect(2);
      DoMotorStepping(MotorInfoTable);
 
      //when X=5
@@ -210,12 +220,14 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     settimer2Periodvalue_Expect(38);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(1,1,1,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
       //state DO_STEPPING
       HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
       HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
       HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+      settimer2Periodvalue_Expect(2);
      DoMotorStepping(MotorInfoTable);
 
      //when X=6
@@ -225,11 +237,13 @@ void test_DoMotorStepping_as_above_diagram_expect_stepping_as_above(void)
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
      //MotorTimer_Expect(STOP);
      HAL_TIM_Base_Stop_IT_Expect(&htim2);
+     settimer2Periodvalue_Expect(38);
      DoMotorStepping(MotorInfoTable);
      TEST_ASSERT_EQUAL_MOTOR_STEP(0,0,0,MotorInfoTable[0]->Dostepping,MotorInfoTable[1]->Dostepping,MotorInfoTable[2]->Dostepping);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
      HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+     settimer2Periodvalue_Expect(2);
      DoMotorStepping(MotorInfoTable);
      start_step=0;
 }

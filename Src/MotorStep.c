@@ -31,7 +31,7 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
         /* timer period = original value (1.25ms)
 				rmb comment it when compile in ide
 				*/
-        //   settimer2Periodvalue(38);
+           settimer2Periodvalue(38);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
@@ -40,7 +40,7 @@ void DoMotorStepping(MotorInfo *MotorInfoTable[]){
 				/* timer period = 2(50us)
 				rmb comment it when compile in ide
 				*/
-        //  settimer2Periodvalue(2);
+          settimer2Periodvalue(2);
         break;
     default:
     	break;
@@ -77,11 +77,4 @@ void checkCommandCompletion(MotorInfo *MotorInfoTable[],int state)
   				break;
   	}
   }
-}
-
-
-void configureMotorandStartTimer(void)
-{
-	HAL_GPIO_WritePin(MOTOR_ENABLE_GPIO_PORT,MOTOR_ENABLE_PIN, LOW);
-	HAL_TIM_Base_Start_IT(&htim2);
 }

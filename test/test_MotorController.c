@@ -2,6 +2,7 @@
 #include "MotorController.h"
 #include "InfoVerifier.h"
 #include "mock_stm32f1xx.h"
+#include "step.h"
 
 void setUp(void)
 {
@@ -108,7 +109,7 @@ void test_mocking_timer_interrupt_expect_will_be_call_1times_after_1_step_with_o
        NULL,
      };
      makeStepbasedOnBrenseham(MotorInfoTable);
-     HAL_TIM_Base_Stop_IT_Expect(htim2);
+     HAL_TIM_Base_Stop_IT_Expect(&htim2);
      makeStepbasedOnBrenseham(MotorInfoTable);
      start_step=0;
 }
@@ -131,7 +132,7 @@ void test_mocking_timer_interrupt_expect_will_be_call_1times_after_longest_3_ste
      };
      makeStepbasedOnBrenseham(MotorInfoTable);
      makeStepbasedOnBrenseham(MotorInfoTable);
-     HAL_TIM_Base_Stop_IT_Expect(htim2);
+     HAL_TIM_Base_Stop_IT_Expect(&htim2);
      makeStepbasedOnBrenseham(MotorInfoTable);
      start_step=0;
 }
