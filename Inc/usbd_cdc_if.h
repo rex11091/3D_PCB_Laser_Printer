@@ -60,12 +60,14 @@
 
 /* USER CODE BEGIN INCLUDE */
 int status;
-#define DATA_IS_READY 15
-#define START_TIMER 16
-#define COUNTING_TIMER 17
-#define START_NEW_DATA 18
-char data[20];
+	#define DATA_IS_READY 15
+	#define START_TIMER 16
+	#define COUNTING_TIMER 17
+	#define START_NEW_DATA 18
+	#define WAIT_FOR_NXT_CMD 19
+char buffer[30];
 char input[20];
+
 
 
 /* USER CODE END INCLUDE */

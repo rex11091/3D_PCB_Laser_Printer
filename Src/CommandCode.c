@@ -4,7 +4,6 @@
 #include "error.h"
 #include "XYZSteps.h"
 #include "Integration.h"
-
 int isInMM = TRUE;
 int isAbsolute = TRUE;
 
@@ -24,7 +23,6 @@ StoreCMD decodeGcode(char *line,GCodeMapping *GCode)
     }
     MOTORSTATUS = MOTOR_BUSY;
     (GCode)->doOperation(GCode->code,GCode->varMap);
-    // while(MOTORSTATUS != MOTOR_OK);
     return cmd;
 }
 
@@ -143,7 +141,11 @@ void getVariables(char *line,GCodeMapping *GCode)
     i--;
   }
 }
-
+  while(((GCode)->varMap->name)!=NULL)
+  {
+    (GCode)->varMap->var->isValid = 0;
+    *(GCode)->varMap++;
+  }
   if((*line == 10)||(*line == 13)||(*line == 64))
   {
 
@@ -318,12 +320,22 @@ int Findfeedrate(char Fvar,VariableMap *var)
   {
     if(Fvar == var->var->name)
     {
-      int feedrateVal = var->var->value;
-      return feedrateVal;
+      if(var->var->value==0)
+      {
+        feedrateVal = 1;
+        return feedrateVal;
+      }
+      else
+      {
+        feedrateVal = var->var->value;
+        return feedrateVal;
+      }
     }
     else
     {
       *var++;
     }
   }
+  feedrateVal = 1;
+  return feedrateVal;
 }

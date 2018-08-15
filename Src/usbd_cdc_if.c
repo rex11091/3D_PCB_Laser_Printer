@@ -49,6 +49,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_cdc_if.h"
+#include "Error.h"
 
 /* USER CODE BEGIN INCLUDE */
 
@@ -288,22 +289,37 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   * @param  Len: Number of data received (in bytes)
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-int z = 0;
+int z=0;
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
+//	  int i;
+//	  CMD_RETRIEVED = FALSE;
+
+//	    if(*Buf == 13)
+//	    {
+//		      status = DATA_IS_READY;
+//		      printf("Detected ASCII value of (%d)\n",*Buf);
+//
+//
+//	    }
+//			memcpy(buffer+j,Buf,sizeof(Buf));
+//			j = j + (*Len);
+//			USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+//			USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+//			return (USBD_OK);
 	if(*Buf == 13){
 
-		strcpy(data,input);
+		memcpy(input+z,"\n",2);
+		strcpy(buffer,input);
 		status = DATA_IS_READY;
 	}
 	memcpy(input+z,Buf,sizeof(Buf));
 	z = z+(*Len);
 	printf("input = %s\n",input);
-
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-  USBD_CDC_ReceivePacket(&hUsbDeviceFS);
-  return (USBD_OK);
+	 USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+	 USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+	 return (USBD_OK);
   /* USER CODE END 6 */
 }
 
@@ -321,6 +337,8 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
   uint8_t result = USBD_OK;
+  z=0;
+  memset(input,0,sizeof(input));
   /* USER CODE BEGIN 7 */
   USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
   if (hcdc->TxState != 0){

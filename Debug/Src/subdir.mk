@@ -11,6 +11,7 @@ C_SRCS += \
 ../Src/MotorController.c \
 ../Src/MotorStep.c \
 ../Src/UserConfig.c \
+../Src/getCMD.c \
 ../Src/main.c \
 ../Src/stm32f1xx_hal_msp.c \
 ../Src/stm32f1xx_it.c \
@@ -28,6 +29,7 @@ OBJS += \
 ./Src/MotorController.o \
 ./Src/MotorStep.o \
 ./Src/UserConfig.o \
+./Src/getCMD.o \
 ./Src/main.o \
 ./Src/stm32f1xx_hal_msp.o \
 ./Src/stm32f1xx_it.o \
@@ -45,6 +47,7 @@ C_DEPS += \
 ./Src/MotorController.d \
 ./Src/MotorStep.d \
 ./Src/UserConfig.d \
+./Src/getCMD.d \
 ./Src/main.d \
 ./Src/stm32f1xx_hal_msp.d \
 ./Src/stm32f1xx_it.d \

@@ -17,6 +17,7 @@ void tearDown(void){}
 
 
 GPIO_TypeDef *GPIOA = {0};
+GPIO_TypeDef *GPIOB = {0};
 void test_G00_X100_Expect_Converted_To_Steps_And_Motor_Run_Steps(void)
 {
   CEXCEPTION_T ex;
@@ -56,7 +57,7 @@ MotorInfo motorZ=(MotorInfo){.name='Z', .delta=0, .deltaRef=0, .error=0, .Dostep
          NULL,
        };
   Try{
-    SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+    // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
     cmd = decodeGcode(line,GCode00);
     for(i=0 ; i<3 ; i++)
     {
@@ -125,9 +126,9 @@ void test_G01_X100_Y99_Z50_F30_Expect_Converted_To_Steps_And_Motor_Run_Steps(voi
        };
 
   Try{
-       SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
-       SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
-       SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
+       // SetUpMotorInfo_ExpectAndReturn(NULL,xSteps,1);
+       // SetUpMotorInfo_ExpectAndReturn(NULL,ySteps,1);
+       // SetUpMotorInfo_ExpectAndReturn(NULL,zSteps,1);
        cmd = decodeGcode(SetUp,GCode00);
        cmd = decodeGcode(line,GCode00);
         for(i=0 ; i<3 ; i++)

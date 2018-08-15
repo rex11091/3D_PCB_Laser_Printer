@@ -14,4 +14,10 @@ typedef struct
   __IO uint32_t LCKR;
 } GPIO_TypeDef;
 
+
+typedef struct
+{
+int x;
+}TIM_HandleTypeDef;
+
 #endif // _STM32F103XB_H

@@ -887,3 +887,62 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
     dumpException(ex);
   }
 }
+
+void test_G21_(void)
+{
+
+    StoreCMD cmd = {0,0};
+    StoreCMD cmd1 = {0,0};
+
+    Variable xVar = {0,0,0,0};
+    Variable yVar = {0,0,0,0};
+    Variable zVar = {0,0,0,0};
+
+    VariableMap g00VarTableMapping[] = {
+      {'X',&xVar},
+      {'Y',&yVar},
+      {'Z',&zVar},
+      {NULL,NULL},
+    };
+    GCodeMapping GCode[] = {
+      {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
+      {.name = "G",.code = 21,.varMap = NULL,.doOperation = handleG20or21},
+      {NULL,NULL,NULL,NULL},
+    };
+    char *SetUp = "G21";
+    char *line = "G00 Y101 X99.99 Z20";
+    cmd = decodeGcode(SetUp,GCode);
+    cmd = decodeGcode(line,GCode);
+}
+
+void test_repetition_of_G00_(void)
+{
+
+    CEXCEPTION_T ex;
+    StoreCMD cmd = {0,0};
+    StoreCMD cmd1 = {0,0};
+
+    Variable xVar = {0,0,0,0};
+    Variable yVar = {0,0,0,0};
+    Variable zVar = {0,0,0,0};
+
+    VariableMap g00VarTableMapping[] = {
+      {'X',&xVar},
+      {'Y',&yVar},
+      {'Z',&zVar},
+      {NULL,NULL},
+    };
+    GCodeMapping GCode[] = {
+      {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
+      {NULL,NULL,NULL,NULL},
+    };
+    Try{
+    char *line = "G00 Y101 X99.99 Z20";
+    char *line1 = "G00 Y100 X50 Z30";
+    cmd = decodeGcode(line1,GCode);
+    cmd = decodeGcode(line,GCode);
+  }Catch(ex)
+  {
+    dumpException(ex);
+  }
+}

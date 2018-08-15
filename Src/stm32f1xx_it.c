@@ -34,7 +34,8 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
-
+#include "UserConfig.h"
+#include "Error.h"
 /* USER CODE BEGIN 0 */
 //#include "UserConfig.h"
 #include "MotorStep.h"
@@ -212,10 +213,11 @@ void USB_LP_CAN1_RX0_IRQHandler(void)
 /**
 * @brief This function handles TIM2 global interrupt.
 */
+
 void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
-
+//	checkCommandCompletion(MotorInfoTable,HANDLE_CURRENT_CMD);
 	DoMotorStepping(MotorInfoTable);
 	//  HAL_TIM_Base_Stop_IT(&htim2);
   /* USER CODE END TIM2_IRQn 0 */
