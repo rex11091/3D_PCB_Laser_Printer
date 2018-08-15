@@ -54,6 +54,7 @@
 /* USER CODE BEGIN Includes */
 #include "MotorController.h"
 #include "UserConfig.h"
+#include "hardwareConfig.h"
 #include "CommandCode.h"
 #include "usbd_cdc_if.h"
 #include "Exception.h"

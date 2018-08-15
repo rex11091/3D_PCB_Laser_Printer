@@ -17,7 +17,6 @@ void tearDown(void){}
 
 
 GPIO_TypeDef *GPIOA = {0};
-GPIO_TypeDef *GPIOB = {0};
 void test_G00_X100_Expect_Converted_To_Steps_And_Motor_Run_Steps(void)
 {
   CEXCEPTION_T ex;
@@ -285,7 +284,7 @@ void test_G01_X100_Y99_Z50_F30_Expect_Converted_To_Steps_And_Motor_Run_Steps(voi
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
-        HAL_TIM_Base_Stop_IT_Expect(htim3);
+        HAL_TIM_Base_Stop_IT_Expect(&htim2);
         checkCommandCompletion(MotorInfoTable,HANDLE_CURRENT_CMD);
 
        }Catch(ex){
