@@ -890,7 +890,7 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
 
 void test_G21_(void)
 {
-
+    CEXCEPTION_T ex;
     StoreCMD cmd = {0,0};
     StoreCMD cmd1 = {0,0};
 
@@ -910,9 +910,14 @@ void test_G21_(void)
       {NULL,NULL,NULL,NULL},
     };
     char *SetUp = "G21";
-    char *line = "G00 Y101 X99.99 Z20";
-    cmd = decodeGcode(SetUp,GCode);
-    cmd = decodeGcode(line,GCode);
+    Try{
+      cmd = decodeGcode(SetUp,GCode);
+      TEST_ASSERT_EQUAL('G',cmd.type);
+      TEST_ASSERT_EQUAL(21,cmd.code);
+    }Catch(ex)
+    {
+      dumpException(ex);
+    }
 }
 
 void test_repetition_of_G00_(void)
@@ -941,6 +946,17 @@ void test_repetition_of_G00_(void)
     char *line1 = "G00 Y100 X50 Z30";
     cmd = decodeGcode(line1,GCode);
     cmd = decodeGcode(line,GCode);
+    TEST_ASSERT_EQUAL('G',cmd.type);
+    TEST_ASSERT_EQUAL(0,cmd.code);
+    TEST_ASSERT_EQUAL('X',xVar.name);
+    TEST_ASSERT_EQUAL(99.99,xVar.value);
+    TEST_ASSERT_EQUAL('Y',yVar.name);
+    TEST_ASSERT_EQUAL(101,yVar.value);
+    TEST_ASSERT_EQUAL('Z',zVar.name);
+    TEST_ASSERT_EQUAL(20,zVar.value);
+    TEST_ASSERT_EQUAL(31,xVar.steps);
+    TEST_ASSERT_EQUAL(31,yVar.steps);
+    TEST_ASSERT_EQUAL(6,zVar.steps);
   }Catch(ex)
   {
     dumpException(ex);

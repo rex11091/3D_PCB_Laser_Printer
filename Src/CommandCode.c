@@ -95,11 +95,15 @@ void getVariables(char *line,GCodeMapping *GCode)
   }
   while(isEmpty(*line))
   {
-    if(len > 0  && line[len-1] == '/')
+    if(len > 0  && line[len-1] == ' ')
     {
       return ;
     }
     line += 1;
+  }
+  if(len == 0)
+  {
+    return;
   }
   for(j=0;j<strlen(line);j++)
   {
@@ -145,6 +149,12 @@ void getVariables(char *line,GCodeMapping *GCode)
   {
     (GCode)->varMap->var->isValid = 0;
     *(GCode)->varMap++;
+    i++;
+  }
+  while(i!=0)
+  {
+    *(GCode)->varMap--;
+    i--;
   }
   if((*line == 10)||(*line == 13)||(*line == 64))
   {
@@ -152,7 +162,7 @@ void getVariables(char *line,GCodeMapping *GCode)
   }
   else if(*line != NULL)
   {
-    throwException(VARIABLE_DOES_NOT_EXIST,"Error! Variable does not exist in this command",*line);
+    throwException(VARIABLE_DOES_NOT_EXIST,"Error! Variable does not exist in this command ",*line);
   }
 }
 
