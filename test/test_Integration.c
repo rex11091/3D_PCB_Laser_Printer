@@ -144,147 +144,179 @@ void test_G01_X100_Y99_Z50_F30_Expect_Converted_To_Steps_And_Motor_Run_Steps(voi
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(2);
         //when Z = 1
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 2
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 3
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 4
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 5
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 6
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 7
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 8
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 9
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 10
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 11
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 12
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 13
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 14
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 15
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
+        settimer2Periodvalue_Expect(38);
         //state DO_STEPPING
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,HIGH);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,HIGH);
+        settimer2Periodvalue_Expect(2);
         //when Z = 16
         //state DO_DELAY
         HAL_GPIO_WritePin_Expect(MotorInfoTable[0]->GPIO,MotorInfoTable[0]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[1]->GPIO,MotorInfoTable[1]->MotorPin,LOW);
         HAL_GPIO_WritePin_Expect(MotorInfoTable[2]->GPIO,MotorInfoTable[2]->MotorPin,LOW);
         HAL_TIM_Base_Stop_IT_Expect(&htim2);
+        settimer2Periodvalue_Expect(38);
         checkCommandCompletion(MotorInfoTable,HANDLE_CURRENT_CMD);
 
        }Catch(ex){

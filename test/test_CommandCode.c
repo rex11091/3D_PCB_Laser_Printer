@@ -957,6 +957,77 @@ void test_repetition_of_G00_(void)
     TEST_ASSERT_EQUAL(31,xVar.steps);
     TEST_ASSERT_EQUAL(31,yVar.steps);
     TEST_ASSERT_EQUAL(6,zVar.steps);
+    ClearVariablesValue(g00VarTableMapping);
+    TEST_ASSERT_EQUAL(0,xVar.value);
+    TEST_ASSERT_EQUAL(0,yVar.value);
+    TEST_ASSERT_EQUAL(0,zVar.value);
+    TEST_ASSERT_EQUAL(0,xVar.steps);
+    TEST_ASSERT_EQUAL(0,yVar.steps);
+    TEST_ASSERT_EQUAL(0,zVar.steps);
+  }Catch(ex)
+  {
+    dumpException(ex);
+  }
+}
+
+void test_repetition_of_more_then_less_variables_G00_(void)
+{
+
+    CEXCEPTION_T ex;
+    StoreCMD cmd = {0,0};
+
+    Variable xVar = {0,0,0,0};
+    Variable yVar = {0,0,0,0};
+    Variable zVar = {0,0,0,0};
+
+    VariableMap g00VarTableMapping[] = {
+      {'X',&xVar},
+      {'Y',&yVar},
+      {'Z',&zVar},
+      {NULL,NULL},
+    };
+    GCodeMapping GCode[] = {
+      {.name = "G",.code = 0,.varMap = g00VarTableMapping,.doOperation = handleG00},
+      {NULL,NULL,NULL,NULL},
+    };
+    Try{
+    char *line = "G00 Y101 X99.99 Z20";
+    char *line1 = "G00 Y100 x50 ";
+    cmd = decodeGcode(line,GCode);
+    TEST_ASSERT_EQUAL('G',cmd.type);
+    TEST_ASSERT_EQUAL(0,cmd.code);
+    TEST_ASSERT_EQUAL('X',xVar.name);
+    TEST_ASSERT_EQUAL(99.99,xVar.value);
+    TEST_ASSERT_EQUAL('Y',yVar.name);
+    TEST_ASSERT_EQUAL(101,yVar.value);
+    TEST_ASSERT_EQUAL('Z',zVar.name);
+    TEST_ASSERT_EQUAL(20,zVar.value);
+    TEST_ASSERT_EQUAL(31,xVar.steps);
+    TEST_ASSERT_EQUAL(31,yVar.steps);
+    TEST_ASSERT_EQUAL(6,zVar.steps);
+    ClearVariablesValue(g00VarTableMapping);
+    TEST_ASSERT_NULL(xVar.name);
+    TEST_ASSERT_NULL(yVar.name);
+    TEST_ASSERT_NULL(zVar.name);
+    TEST_ASSERT_EQUAL(0,xVar.value);
+    TEST_ASSERT_EQUAL(0,yVar.value);
+    TEST_ASSERT_EQUAL(0,zVar.value);
+    TEST_ASSERT_EQUAL(0,xVar.steps);
+    TEST_ASSERT_EQUAL(0,yVar.steps);
+    TEST_ASSERT_EQUAL(0,zVar.steps);
+    cmd = decodeGcode(line1,GCode);
+    TEST_ASSERT_EQUAL('G',cmd.type);
+    TEST_ASSERT_EQUAL(0,cmd.code);
+    TEST_ASSERT_EQUAL('X',xVar.name);
+    TEST_ASSERT_EQUAL(50,xVar.value);
+    TEST_ASSERT_EQUAL('Y',yVar.name);
+    TEST_ASSERT_EQUAL(100,yVar.value);
+    TEST_ASSERT_EQUAL(NULL,zVar.name);
+    TEST_ASSERT_EQUAL(0,zVar.value);
+    TEST_ASSERT_EQUAL(15,xVar.steps);
+    TEST_ASSERT_EQUAL(31,yVar.steps);
+    TEST_ASSERT_EQUAL(0,zVar.steps);
+
   }Catch(ex)
   {
     dumpException(ex);

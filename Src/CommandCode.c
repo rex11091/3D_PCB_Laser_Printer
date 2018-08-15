@@ -6,6 +6,7 @@
 #include "Integration.h"
 int isInMM = TRUE;
 int isAbsolute = TRUE;
+int resetSteps;
 
 StoreCMD decodeGcode(char *line,GCodeMapping *GCode)
 {
@@ -95,10 +96,11 @@ void getVariables(char *line,GCodeMapping *GCode)
   }
   while(isEmpty(*line))
   {
-    if(len > 0  && line[len-1] == ' ')
+    if(len <= 1  && line[len-1] == ' ')
     {
       return ;
     }
+
     line += 1;
   }
   if(len == 0)
@@ -158,7 +160,7 @@ void getVariables(char *line,GCodeMapping *GCode)
   }
   if((*line == 10)||(*line == 13)||(*line == 64))
   {
-
+	  return;
   }
   else if(*line != NULL)
   {
@@ -230,12 +232,14 @@ void handleG90orG91(int code,Variable *table)
 }
 void handleG00(int code,VariableMap *g00VarTableMapping)
 {
-  int steps;
+  double steps;
+
   if(isInMM == TRUE)
   {
         while(g00VarTableMapping->var!=NULL)
         {
             g00VarTableMapping->var->steps = MM_TO_STEPS(g00VarTableMapping->var->value);
+            // g00VarTableMapping->var->value = 0;
           //  steps = g00VarTableMapping->var->steps;
           // if(steps != 0)
           // {
@@ -248,7 +252,9 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
   {
     while(g00VarTableMapping->var!=NULL)
     {
+        steps = g00VarTableMapping->var->value;
         g00VarTableMapping->var->steps = INCH_TO_STEPS(g00VarTableMapping->var->value);
+        // g00VarTableMapping->var->value = 0;
       // steps = g00VarTableMapping->var->steps;
       // if(steps != 0)
       // {
@@ -267,7 +273,7 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
 void handleG01(int code,VariableMap *g01VarTableMapping)
 {
   int feedrate = 0;
-  int steps;
+  double steps;
   feedrate = Findfeedrate('F',g01VarTableMapping);
 
   if(isInMM == TRUE)
@@ -285,6 +291,7 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
           else
           {
             g01VarTableMapping->var->steps = MM_TO_STEPS(g01VarTableMapping->var->value) * feedrate;
+            // g01VarTableMapping->var->value = 0;
           // steps = g01VarTableMapping->var->steps;
           // if(steps != 0)
           // {
@@ -305,6 +312,7 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
         else
         {
           g01VarTableMapping->var->steps = INCH_TO_STEPS(g01VarTableMapping->var->value) * feedrate;
+          // g01VarTableMapping->var->value = 0;
         // steps = g01VarTableMapping->var->steps;
         // if(steps != 0)
         // {
@@ -348,4 +356,15 @@ int Findfeedrate(char Fvar,VariableMap *var)
   }
   feedrateVal = 1;
   return feedrateVal;
+}
+
+void ClearVariablesValue(VariableMap *var)
+{
+  while(var->name != NULL)
+  {
+    var->var->name = NULL;
+    var->var->value = 0;
+    var->var->steps = 0;
+    *var++;
+  }
 }

@@ -5,52 +5,58 @@
  *      Author: rex
  */
 #include "hardwareConfig.h"
+#include "Error.h"
+#include "CommandCode.h"
 
 void DecodeandStepMotor(void){
  if(status == DATA_IS_READY){
 			 Try{
 			      cmd1 = decodeGcode(buffer,GCode00);
 					memset(buffer,0,sizeof(buffer));
-//			 	  cmd1 = decodeGcode(line,GCode00);
 					if(cmd1.code == 1)
 					{
 						E = 1;
 					}
-					else if(cmd1.code == 0)
+					if(cmd1.code == 0)
 					{
 						E = 0;
 					}
-					else{
-						status = WAIT_FOR_NXT_CMD;
-						return;
-					}
+
+//					if(cmd1.code == 21 ||cmd1.code==90 ||cmd1.code==91 || cmd1.code==20)
+//					{
+//						throwException(CONFIG_NXT_GCODE,"Configuration Set",cmd1.code);
+//					}
 					if(E==0){
+
+						memset(Steps,0,sizeof(Steps));
 					   for(int i=0;i<3;i++)
 					   {
 							Steps[i] = g00VarTableMapping[i].var->steps;
 					   }
+					   	   ClearVariablesValue(g00VarTableMapping);
 						   setupMotorInfo(MotorInfoTable,Steps);
 
 						}
-					else{
-					 	   for(int i=0;i<3;i++)
-					 	   {
-					 	        Steps[i] = g01VarTableMapping[i].var->steps;
-					 	   }
-					 	setupMotorInfo(MotorInfoTable,Steps);
+					else if(E==1){
+
+
+						memset(Steps,0,sizeof(Steps));
+					 	for(int i=0;i<3;i++)
+					 	{
+					 	    Steps[i] = g01VarTableMapping[i].var->steps;
+					 	}
+					 	   	ClearVariablesValue(g01VarTableMapping);
+					 	   	setupMotorInfo(MotorInfoTable,Steps);
 					}
 			 	configureMotorandStartTimer();
-//			 	HAL_TIM_Base_Start_IT(&htim2);
 			 	while(MOTORSTATUS != MOTOR_OK)
 			 	{
 			 	}
 			 if(MOTORSTATUS == MOTOR_OK)
 			 {
 				 CDC_Transmit_FS(complete,strlen(complete));
-				 MOTORSTATUS = MOTOR_DO_NEXT;
+				 MOTORSTATUS = MOTOR_BUSY;
 				 status = WAIT_FOR_NXT_CMD;
-//				 buffer[0] = 0;
-				 //memset(input,0,sizeof(input));
 			 }
 			}
 			 Catch(ex)
@@ -62,8 +68,6 @@ void DecodeandStepMotor(void){
 				 }
 				 freeException(ex);
 				 status = WAIT_FOR_NXT_CMD;
-				 volatile int i;
-				 //CDC_Transmit_FS(ex->msg, strlen(ex->msg));
 			 }
 		 }
 }

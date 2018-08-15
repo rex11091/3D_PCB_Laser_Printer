@@ -51,7 +51,7 @@ void setupMotorInfo(MotorInfo *MotorInfoTable[],int delta[]){
 }
 
 void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
-  int i=0,j=0;
+  int i=0,j=0,k=0;
   int stop=0; //stop is like a flag that determine the Motor which being Referencing is already until the end of points
   // here is checking which motor is being Referencing and Keep stepping it when havent reach the final point
   while(MotorInfoTable[i]!=NULL){
@@ -94,6 +94,12 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
       //stop timer interrupt
       MOTORSTATUS = MOTOR_OK;
       HAL_TIM_Base_Stop_IT(&htim2);
+      start_step=0;
+      while(MotorInfoTable[k]!=NULL){
+        MotorInfoTable[k]->delta =0;
+        MotorInfoTable[k]->deltaRef =0;
+      k++;
+     }
       //take care of this when compile
         //HAL_TIM_Base_Stop_IT(htim3);
 
