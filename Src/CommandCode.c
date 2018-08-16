@@ -6,7 +6,6 @@
 #include "Integration.h"
 int isInMM = TRUE;
 int isAbsolute = TRUE;
-int resetSteps;
 
 StoreCMD decodeGcode(char *line,GCodeMapping *GCode)
 {
@@ -252,7 +251,6 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
   {
     while(g00VarTableMapping->var!=NULL)
     {
-        steps = g00VarTableMapping->var->value;
         g00VarTableMapping->var->steps = INCH_TO_STEPS(g00VarTableMapping->var->value);
         // g00VarTableMapping->var->value = 0;
       // steps = g00VarTableMapping->var->steps;
@@ -367,4 +365,5 @@ void ClearVariablesValue(VariableMap *var)
     var->var->steps = 0;
     *var++;
   }
+  isInMM = TRUE;
 }

@@ -701,6 +701,7 @@ void test_G20_G00_Y101_X99_point_99_Z_20_expect_value_from_MM_to_Steps(void)
     TEST_ASSERT_EQUAL(799,xVar.steps);
     TEST_ASSERT_EQUAL(808,yVar.steps);
     TEST_ASSERT_EQUAL(160,zVar.steps);
+    ClearVariablesValue(g00VarTableMapping);
   }Catch(ex){
     dumpException(ex);
   }
@@ -748,6 +749,7 @@ void test_G21_G00_Y101_X99_point_99_Z_20_expect_value_from_INCH_to_Steps(void)
     TEST_ASSERT_EQUAL(31,xVar.steps);
     TEST_ASSERT_EQUAL(31,yVar.steps);
     TEST_ASSERT_EQUAL(6,zVar.steps);
+    ClearVariablesValue(g00VarTableMapping);
   }Catch(ex){
     dumpException(ex);
   }
@@ -795,6 +797,7 @@ void test_g21_g00_y101_x99_point_99_z20_expect_variable_toupper_and_value_from_I
     TEST_ASSERT_EQUAL(31,xVar.steps);
     TEST_ASSERT_EQUAL(31,yVar.steps);
     TEST_ASSERT_EQUAL(6,zVar.steps);
+    ClearVariablesValue(g00VarTableMapping);
   }Catch(ex){
     dumpException(ex);
   }
@@ -807,9 +810,9 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
   int ySteps = 31;
   int zSteps = 6;
 
-  int x1Steps = 472;
-  int y1Steps = 629;
-  int z1Steps = 314;
+  int x1Steps = 12000;
+  int y1Steps = 16000;
+  int z1Steps = 8000;
 
   StoreCMD cmd = {0,0};
   StoreCMD cmd1 = {0,0};
@@ -864,6 +867,7 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
     TEST_ASSERT_EQUAL(31,xVar.steps);
     TEST_ASSERT_EQUAL(31,yVar.steps);
     TEST_ASSERT_EQUAL(6,zVar.steps);
+    ClearVariablesValue(g00VarTableMapping);
     // SetUpMotorInfo_ExpectAndReturn(NULL,x1Steps,1);
     // SetUpMotorInfo_ExpectAndReturn(NULL,y1Steps,1);
     // SetUpMotorInfo_ExpectAndReturn(NULL,z1Steps,1);
@@ -879,9 +883,9 @@ void test_G21_G00_G91_G01_cmd_expect_absolute_steps(void)
     TEST_ASSERT_EQUAL(10,z1Var.value);
     TEST_ASSERT_EQUAL('F',fVar.name);
     TEST_ASSERT_EQUAL(100,fVar.value);
-    TEST_ASSERT_EQUAL(472,x1Var.steps);
-    TEST_ASSERT_EQUAL(629,y1Var.steps);
-    TEST_ASSERT_EQUAL(314,z1Var.steps);
+    TEST_ASSERT_EQUAL(12000,x1Var.steps);
+    TEST_ASSERT_EQUAL(16000,y1Var.steps);
+    TEST_ASSERT_EQUAL(8000,z1Var.steps);
     TEST_ASSERT_EQUAL(0,fVar.steps);
   }Catch(ex){
     dumpException(ex);
@@ -914,6 +918,7 @@ void test_G21_(void)
       cmd = decodeGcode(SetUp,GCode);
       TEST_ASSERT_EQUAL('G',cmd.type);
       TEST_ASSERT_EQUAL(21,cmd.code);
+      ClearVariablesValue(g00VarTableMapping);
     }Catch(ex)
     {
       dumpException(ex);
@@ -954,9 +959,9 @@ void test_repetition_of_G00_(void)
     TEST_ASSERT_EQUAL(101,yVar.value);
     TEST_ASSERT_EQUAL('Z',zVar.name);
     TEST_ASSERT_EQUAL(20,zVar.value);
-    TEST_ASSERT_EQUAL(31,xVar.steps);
-    TEST_ASSERT_EQUAL(31,yVar.steps);
-    TEST_ASSERT_EQUAL(6,zVar.steps);
+    TEST_ASSERT_EQUAL(799,xVar.steps);
+    TEST_ASSERT_EQUAL(808,yVar.steps);
+    TEST_ASSERT_EQUAL(160,zVar.steps);
     ClearVariablesValue(g00VarTableMapping);
     TEST_ASSERT_EQUAL(0,xVar.value);
     TEST_ASSERT_EQUAL(0,yVar.value);
@@ -1002,9 +1007,9 @@ void test_repetition_of_more_then_less_variables_G00_(void)
     TEST_ASSERT_EQUAL(101,yVar.value);
     TEST_ASSERT_EQUAL('Z',zVar.name);
     TEST_ASSERT_EQUAL(20,zVar.value);
-    TEST_ASSERT_EQUAL(31,xVar.steps);
-    TEST_ASSERT_EQUAL(31,yVar.steps);
-    TEST_ASSERT_EQUAL(6,zVar.steps);
+    TEST_ASSERT_EQUAL(799,xVar.steps);
+    TEST_ASSERT_EQUAL(808,yVar.steps);
+    TEST_ASSERT_EQUAL(160,zVar.steps);
     ClearVariablesValue(g00VarTableMapping);
     TEST_ASSERT_NULL(xVar.name);
     TEST_ASSERT_NULL(yVar.name);
@@ -1024,8 +1029,8 @@ void test_repetition_of_more_then_less_variables_G00_(void)
     TEST_ASSERT_EQUAL(100,yVar.value);
     TEST_ASSERT_EQUAL(NULL,zVar.name);
     TEST_ASSERT_EQUAL(0,zVar.value);
-    TEST_ASSERT_EQUAL(15,xVar.steps);
-    TEST_ASSERT_EQUAL(31,yVar.steps);
+    TEST_ASSERT_EQUAL(400,xVar.steps);
+    TEST_ASSERT_EQUAL(800,yVar.steps);
     TEST_ASSERT_EQUAL(0,zVar.steps);
 
   }Catch(ex)
