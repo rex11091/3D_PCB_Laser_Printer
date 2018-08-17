@@ -7,24 +7,55 @@
 int isInMM = TRUE;
 int isAbsolute = TRUE;
 
+//This function is to take in a length of string
+//that is keyed in by the user as well an array of structure
+//that is used to map with the string
+
+//This function is basically just to take in these two parameters
+//and to call other functions to execute on mapping the string
+// with the array of structure
+
+//The return value of this function is a structure that is used to store
+//G-Code command such as the letter 'G' follow by the code
+//that leads to different instructions with different code
 StoreCMD decodeGcode(char *line,GCodeMapping *GCode)
 {
   StoreCMD cmd;
 
     line = getGcodeCommand(line,GCode,&cmd);
+    //After storing the 'G' command as well the code in their respective
+    //places in the structure, this while will be used to compare with
+    //the code so that the Table of instructions is used correctly
+    //when mapping the following variables
     while(cmd.code != (GCode)->code)
     {
     *GCode++;
     }
     getVariables(line,GCode);
-    while(cmd.code != (GCode)->code)
-    {
-    *GCode++;
-    }
+    // while(cmd.code != (GCode)->code)
+    // {
+    // *GCode++;
+    // }
+    //MOTORSTATUS is set to busy getting a valid G-Code command
+    //to indicate that the motor going to start stepping now
+    //and unable to take in new G-Code command until the status
+    //is changed
     MOTORSTATUS = MOTOR_BUSY;
     (GCode)->doOperation(GCode->code,GCode->varMap);
     return cmd;
 }
+
+//This function is to extract the character 'G' as well as the Code
+// indicating it is a valid command that exist in the G-Code language.
+
+//The code extracted from the string will be converted into an Integer
+//for more convenience in mapping with the code in the array structure
+
+//Throw exception will be executed whenever an invalid G command
+//or code in the string that is keyed in by the user
+
+//The value return by this function is in the form of string
+//in order to resume the next variable mapping
 
 char *getGcodeCommand(char *line,GCodeMapping *GCode,StoreCMD *cmd)
 {
@@ -82,6 +113,10 @@ char *getGcodeCommand(char *line,GCodeMapping *GCode,StoreCMD *cmd)
   same variable or code does not exist\n",ERROR_CODE));
 }
 
+//This function is to map variables from the string with the array structure
+
+//After mapping a valid variable in the string, an integer called 'isValid'
+//will be trigger to 1 in order to avoid the same variable to exist in this command
 
 void getVariables(char *line,GCodeMapping *GCode)
 {
@@ -102,6 +137,9 @@ void getVariables(char *line,GCodeMapping *GCode)
 
     line += 1;
   }
+  //This 'if' statement is exceptionally for the USB CDC communication as the string
+  //passed in includes some random ASCII values at the end of the string
+  //In order to avoid this, a '\n'(ASCII value of 10) is stored into the end of the string
   if(len == 0)
   {
     return;
@@ -157,6 +195,9 @@ void getVariables(char *line,GCodeMapping *GCode)
     *(GCode)->varMap--;
     i--;
   }
+  //This 'if' statement is to double check the end of the string
+  //is not one of these ASCII values
+  //It is to deal with USB CDC communication as well
   if((*line == 10)||(*line == 13)||(*line == 64))
   {
 	  return;
@@ -167,6 +208,8 @@ void getVariables(char *line,GCodeMapping *GCode)
   }
 }
 
+//This function is used to extract the value of the variables
+//and convert it to a double
 char *getValue(char *line,GCodeMapping *GCode)
 {
   int i=0;
@@ -206,6 +249,11 @@ char *getValue(char *line,GCodeMapping *GCode)
   return line;
 
 }
+
+//This function is to check the code of the command
+//whether is a command that converts the value of the variable
+//to inch or mm
+//Default : MM -> steps
 void handleG20or21(int code,VariableMap *table)
 {
   if(code == 20 || code == 70)
@@ -218,6 +266,9 @@ void handleG20or21(int code,VariableMap *table)
   }
 }
 
+//This function is to check the code of the command
+//whether to execute the next G-Code command
+//in absolute form or relative form
 void handleG90orG91(int code,Variable *table)
 {
   if(code == 90)
@@ -229,6 +280,10 @@ void handleG90orG91(int code,Variable *table)
     isAbsolute = TRUE;
   }
 }
+
+//This function handles the 0 code command of the G-Code by converting
+// the values of the variables
+//into steps
 void handleG00(int code,VariableMap *g00VarTableMapping)
 {
   double steps;
@@ -267,6 +322,10 @@ void handleG00(int code,VariableMap *g00VarTableMapping)
   //   i--;
   // }
 }
+
+//This function handles the 0 code command of the G-Code by converting
+// the values of the variables
+//into steps with an additional variable called feedrate
 
 void handleG01(int code,VariableMap *g01VarTableMapping)
 {
@@ -329,6 +388,9 @@ void handleG01(int code,VariableMap *g01VarTableMapping)
 
 }
 
+//This function is to extract the value of the feedrate from code 1 of G-code
+//If feedrate is not keyed in by the user
+//The feedrate will be automatically be 1
 int Findfeedrate(char Fvar,VariableMap *var)
 {
   int feedrateVal;
@@ -355,6 +417,9 @@ int Findfeedrate(char Fvar,VariableMap *var)
   feedrateVal = 1;
   return feedrateVal;
 }
+
+//This function is to clear all the variables in the structure
+//to avoid the next command passed in to take in the old values
 
 void ClearVariablesValue(VariableMap *var)
 {
