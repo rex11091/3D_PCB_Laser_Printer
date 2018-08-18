@@ -49,7 +49,11 @@ void setupMotorInfo(MotorInfo *MotorInfoTable[],int delta[]){
   m++;
   }
 }
-
+/*
+* this bresenham algorithm is modified from original bresenham
+* here using delta(step) for representing the coordinate of X1 to X0
+* so it based on delta to move.
+*/
 void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
   int i=0,j=0,k=0;
   int stop=0; //stop is like a flag that determine the Motor which being Referencing is already until the end of points
@@ -95,20 +99,17 @@ void makeStepbasedOnBrenseham(MotorInfo *MotorInfoTable[]){
       MOTORSTATUS = MOTOR_OK;
       HAL_TIM_Base_Stop_IT(&htim2);
       start_step=0;
-      while(MotorInfoTable[k]!=NULL){
+      while(MotorInfoTable[k]!=NULL){             //clear all the delta and deltaRef when come to ending point
         MotorInfoTable[k]->delta =0;
         MotorInfoTable[k]->deltaRef =0;
       k++;
      }
-      //take care of this when compile
-        //HAL_TIM_Base_Stop_IT(htim3);
-
     }
 }
 
 
 
-//set Motorinfo->Dostepping to 1
+//set Motorinfo->Dostepping to 0
 void clearALLMotorinfoDostepping(MotorInfo *MotorInfoTable[]){
   int i=0;
   while(MotorInfoTable[i]!=NULL){
