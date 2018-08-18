@@ -2,7 +2,8 @@
 
 static int state = DO_STEPPING;
 
-//motorinfo gpio and pin to hardware gpio
+
+// set MotorPin either high or low based on the Dostepping flag
 void StepMotor(MotorInfo *info){
 	if(info->Dostepping==1){
 		HAL_GPIO_WritePin(info->GPIO,info->MotorPin,HIGH);
@@ -19,27 +20,31 @@ void SetAllmotorStep(MotorInfo *MotorInfoTable[]){
       i++;
     }
 }
-
-// here is a function to check the motors's stepping either stepping or Not
-//if stepping thn toggle the pin of the motors
+/*
+*state delay
+	*clear all the DO_STEPPING flag
+	*Set all motor pin to low
+	*set the Period of interval to original value
+*state DO_STEPPING
+	*set all the motor to high if DO_STEPPING flag is 1
+	*set the period of motor set up and set down to 50us
+*/
 void DoMotorStepping(MotorInfo *MotorInfoTable[]){
   switch(state){
     case DO_DELAY:
          clearALLMotorinfoDostepping(MotorInfoTable);
          SetAllmotorStep(MotorInfoTable);
          makeStepbasedOnBrenseham(MotorInfoTable);
-        /* timer period = original value (1.25ms)
-				rmb comment it when compile in ide
-				*/
+        //timer period = original value (1.25ms)
+
            settimer2Periodvalue(38);
         state = DO_STEPPING;
         break;
     case DO_STEPPING:
     	  SetAllmotorStep(MotorInfoTable);
 				 state =DO_DELAY;
-				/* timer period = 2(50us)
-				rmb comment it when compile in ide
-				*/
+				// timer period = 2(50us)
+
           settimer2Periodvalue(2);
         break;
     default:
