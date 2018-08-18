@@ -140,7 +140,7 @@ void getVariables(char *line,GCodeMapping *GCode)
   //This 'if' statement is exceptionally for the USB CDC communication as the string
   //passed in includes some random ASCII values at the end of the string
   //In order to avoid this, a '\n'(ASCII value of 10) is stored into the end of the string
-  if(len == 0)
+  if(len == 0 || *line == 10)
   {
     return;
   }
