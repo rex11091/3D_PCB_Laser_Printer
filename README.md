@@ -16,4 +16,6 @@ Other hardware components required here are :
 # 2. Topics
 1. [G-Code Extraction](https://github.com/AndyIsMe/3D_PCB_Laser_Printer/tree/DrawLine/Src/GcodeExtraction). Information about G-Code can be found [here](https://en.wikipedia.org/wiki/G-code)
 2. [MotorInfo Setup configuration and Motor Stepping](https://github.com/AndyIsMe/3D_PCB_Laser_Printer/tree/DrawLine/Src/StepperMotor).
+Information about configuration Stepper Motor and its movement can be found at [here](https://github.com/rex11091/3D_PCB_Laser_Printer/wiki)
+
     
